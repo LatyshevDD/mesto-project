@@ -15,5 +15,6 @@
   .profile__profession {
     font-size: 14px;
     text-align: center;
+    grid-column: 1 / 3;
 }
 }
