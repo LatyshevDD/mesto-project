@@ -9,9 +9,7 @@
 <body class="body">
   <div class="page">
     <header class="header">
-      <div class="header__container">
         <img src="./images/header__logo.svg" alt="Логотип Mesto" class="header__logo">
-      </div>
     </header>
     <main class="content">
       <section class="profile">
@@ -20,14 +18,12 @@
             <img src="./images/avatar-kusto.png" alt="Фотография профиля" class="profile__avatar">
               <div class="profile__text">
                 <h1 class="profile__name">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button">
-                  <img src="./images/profile__edit-button-img.svg" alt="Кнопка редактировать профиль" class="profile__edit-button-img">
+                <button class="profile__edit-button" aria-label="Редактировать профиль" type="button">
                 </button>
                 <p class="profile__profession">Исследователь океана</p>
               </div>
           </div>
-          <button class="profile__add-button">
-            <img src="./images/profile__add-button-img.svg" alt="Кнопка - добавить" class="profile__add-button-img">
+          <button class="profile__add-button" aria-label="Добавить информацию в профиль" type="button">
           </button>
         </div>
       </section> <!-- /profile -->
@@ -79,22 +75,21 @@
       </section> <!-- elements -->
     </main>
     <footer class="footer">
-      <div class="footer__container">
         <p class="footer__author">&copy; 2023 Латышев Денис</p>
-      </div>
     </footer>
     <section class="popup">
       <div class="popup__container">
-        <form class="form">
+        <form class="form" name="edit-profile">
           <h2 class="form__title">Редактировать профиль</h2>
           <fieldset class="form__input-container">
             <input class="form__input-text" type="text" name="profile__name" value="Жак-Ив Кусто">
             <input class="form__input-text" type="text" name="profile__profession" value="Исследователь океана">
           </fieldset>
-          <fieldset class="form__handlers-container">
-            <input class="form__input-submit" type="submit" name="submit" value="Сохранить">
-          </fieldset>
+          <input class="form__input-submit" type="submit" name="submit" value="Сохранить">
         </form>
+        <button class="popup__close-button" aria-label="Закрыть окно" type="button">
+          <img src="./images/close-icon.svg" alt="Кнопка закрыть окно" class="popup__close-button-img">
+        </button>
       </div>
     </section>
   </div> <!--/page -->

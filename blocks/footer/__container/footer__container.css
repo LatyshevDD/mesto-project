@@ -1,9 +1,0 @@
-.footer__container {
-  width: 68.8%;
-}
-
-@media screen and (max-width: 640px) {
-  .footer__container {
-    width: 88.1%;
-  }
-}

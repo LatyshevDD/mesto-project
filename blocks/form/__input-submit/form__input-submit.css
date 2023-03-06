@@ -9,6 +9,7 @@
   background-color: #000;
   color: #fff;
   cursor: pointer;
+  line-height: 21.8px;
 }
 
 .form__input-submit:hover {
@@ -20,5 +21,6 @@
     width: 238px;
     height: 46px;
     font-size: 14px;
+    line-height: 17px;
   }
 }

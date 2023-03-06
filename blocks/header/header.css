@@ -1,4 +1,13 @@
 .header {
+  width: 68.8%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid rgba(84, 84, 84, 1);
+  align-self: center;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+  width: 100%;
+  }
 }
