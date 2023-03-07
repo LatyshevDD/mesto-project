@@ -13,11 +13,7 @@
 @media screen and (max-width: 768px) {
   .profile__container {
     row-gap: 36px;
+    width: 88.1%;
 }
 }
 
-@media screen and (max-width: 320px) {
-  .profile__container {
-  width: 88.1%;
-  }
-}

@@ -6,10 +6,12 @@
   column-gap: 16px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
   .profile__text {
     row-gap: 14px;
     column-gap: 10px;
     grid-template-columns: 190px auto;
+    box-sizing: border-box;
+    padding-left: 25px;к
 }
 }
