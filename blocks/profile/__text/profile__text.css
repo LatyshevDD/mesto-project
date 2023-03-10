@@ -10,8 +10,7 @@
   .profile__text {
     row-gap: 14px;
     column-gap: 10px;
-    grid-template-columns: 190px auto;
     box-sizing: border-box;
-    padding-left: 25px;к
+    grid-template-columns: 1fr 190px 1fr;
 }
 }

@@ -19,5 +19,7 @@
     box-sizing: border-box;
     padding-right: 16px;
     padding-left: 16px;
+    grid-column: 2 / 3;
+    grid-row: 2;
   }
 }
