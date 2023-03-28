@@ -48,3 +48,15 @@ const initialCards = [
   }
 
   initialCards.forEach(createCard);
+
+
+// Like Card
+  function likeCard(evt) {
+    const target = evt.target;
+
+    if (target.classList.contains('elements__like-button')){
+      target.classList.toggle('elements__like-button_active');
+    }
+  }
+
+  cardsContainer.addEventListener('click', likeCard);
