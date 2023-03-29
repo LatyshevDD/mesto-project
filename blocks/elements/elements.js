@@ -1,4 +1,4 @@
-// Card array
+// Cards array
 const initialCards = [
   {
     name: 'Карачаевск',
@@ -35,16 +35,13 @@ const initialCards = [
   function createCard (obj) {
     const cardName = obj.name;
     const cardLink = obj.link;
-    const card = `
-    <li class="elements__card">
-      <img src="${cardLink}" alt="${cardName}" class="elements__image">
-        <div class="elements__text">
-          <h2 class="elements__title">${cardName}</h2>
-          <button class="elements__like-button" type="button"></button>
-        </div>
-      </li>
-    `;
-    cardsContainer.insertAdjacentHTML('beforeend', card);
+    const cardTemplate = document.querySelector('.cardTemplate').content;
+    const card = cardTemplate.querySelector('.elements__card').cloneNode(true);
+    card.querySelector('.elements__image').src = cardLink;
+    card.querySelector('.elements__image').alt = cardName;
+    card.querySelector('.elements__title').textContent = cardName;
+
+    cardsContainer.append(card);
   }
 
   initialCards.forEach(createCard);
