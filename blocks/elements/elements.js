@@ -1,28 +1,28 @@
 // Cards array
 const initialCards = [
   {
-    name: 'Карачаевск',
-    link: './images/cards/card-image_karaychaevsk.jpg'
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-    name: 'Гора эльбрус',
-    link: './images/cards/card-image_elbrus.jpg'
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-    name: 'Домбай',
-    link: './images/cards/card-image_donbai.jpg'
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-    name: 'Гора эльбрус',
-    link: './images/cards/card-image_elbrus.jpg'
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-    name: 'Домбай',
-    link: './images/cards/card-image_donbai.jpg'
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-    name: 'Карачаево-Черкесия',
-    link: './images/cards/card-image_karaychaevsk.jpg'
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
   ];
 
@@ -57,3 +57,14 @@ const initialCards = [
   }
 
   cardsContainer.addEventListener('click', likeCard);
+
+  // Close Card
+  function closeCard(evt) {
+    const target = evt.target;
+
+    if (target.classList.contains('elements__close-button')){
+      target.closest('.elements__card').remove();
+    }
+  }
+
+  cardsContainer.addEventListener('click', closeCard);

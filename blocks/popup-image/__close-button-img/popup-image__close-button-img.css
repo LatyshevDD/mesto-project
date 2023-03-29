@@ -1,0 +1,12 @@
+.popup-image__close-button-img {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+@media screen and (max-width: 640px) {
+  .popup-image__close-button-img {
+    width: 20px;
+    height: 20px;
+  }
+}

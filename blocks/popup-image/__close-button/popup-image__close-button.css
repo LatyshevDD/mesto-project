@@ -1,4 +1,4 @@
-.popup__close-button {
+.popup-image__close-button {
   margin: 0;
   padding: 0;
   background-color: rgba(0, 0, 0, 0);
@@ -14,17 +14,17 @@
   top: 0;
   right: 0;
   z-index: 1;
-  transform: translate(100%, -100%);
+  transform: translate(115%, -115%);
   transition: opacity .3s;
 }
 
-.popup__close-button:hover {
+.popup-image__close-button:hover {
   opacity: .6;
 }
 
 
 @media screen and (max-width: 640px) {
-  .popup__close-button {
+  .popup-image__close-button {
     width: 20px;
     height: 20px;
     transform: translateY(-175%);
