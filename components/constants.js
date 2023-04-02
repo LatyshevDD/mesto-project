@@ -53,7 +53,7 @@ const profileProfession = profileSection.querySelector('.profile__profession');
 // Capture
 const popupCapture = document.querySelector('.popup_capture');
 const capture = popupCapture.querySelector('.capture');
-const CaptureCloseButton = popupCapture.querySelector('.capture__close-button');
+const CaptureCloseButton = popupCapture.querySelector('.popup__close-button');
 
 // Add card form
 const addCardForm = cardsAddCardPopup.querySelector('.form');

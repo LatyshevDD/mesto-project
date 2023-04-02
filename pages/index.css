@@ -60,8 +60,6 @@
 
 /* Capture */
 @import url(../blocks/capture/capture.css);
-@import url(../blocks/capture/__close-button-img/capture__close-button-img.css);
-@import url(../blocks/capture/__close-button/capture__close-button.css);
 @import url(../blocks/capture/__image/capture__image.css);
 @import url(../blocks/capture/__title/capture__title.css);
 
