@@ -1,4 +1,4 @@
-// Open popup-image
+// Open capture
 const cards = document.querySelector('.elements__cards');
 const popupImage = document.querySelector('.popup-image');
 
@@ -14,7 +14,7 @@ function openPopupImage(evt) {
   }
 }
 
-// PopupImage close
+// Close capture
 const popupImageCloseButton = popupImage.querySelector('.popup-image__close-button');
 
 function closePopupImage(){

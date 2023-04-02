@@ -49,6 +49,7 @@
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/__close-button-img/popup__close-button-img.css);
+@import url(../blocks/popup/_capture/popup_capture.css);
 
 /* Form */
 @import url(../blocks/form/form.css);
@@ -57,12 +58,11 @@
 @import url(../blocks/form/__input-text/form__input-text.css);
 @import url(../blocks/form/__input-submit/form__input-submit.css);
 
-/* Popup-image */
-@import url(../blocks/popup-image/popup-image.css);
-@import url(../blocks/popup-image/_opened/popup-image_opened.css);
-@import url(../blocks/popup-image/__close-button/popup-image__close-button.css);
-@import url(../blocks/popup-image/__figure/popup-image__figure.css);
-@import url(../blocks/popup-image/__image/popup-image__image.css);
-@import url(../blocks/popup-image/__title/popup-image__title.css);
+/* Capture */
+@import url(../blocks/capture/capture.css);
+@import url(../blocks/capture/__close-button-img/capture__close-button-img.css);
+@import url(../blocks/capture/__close-button/capture__close-button.css);
+@import url(../blocks/capture/__image/capture__image.css);
+@import url(../blocks/capture/__title/capture__title.css);
 
 

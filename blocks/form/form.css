@@ -7,6 +7,10 @@
   row-gap: 48px;
   padding-top: 34px;
   padding-bottom: 37px;
+  width: 430px;
+  background-color: #fff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
 }
 
 @media screen and (max-width: 640px) {
@@ -14,5 +18,7 @@
     padding-top: 25px;
     padding-bottom: 25px;
     row-gap: 45px;
+    width: 282px;
   }
 }
+
