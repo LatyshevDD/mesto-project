@@ -1,13 +1,13 @@
 //  Open popup edit profile
 function openPopupEditProfile() {
-  profileSection.querySelector('.popup').classList.add('popup_opened');
+  profileEditPopup.classList.add('popup_opened');
 }
 
 profileEditButtonOpen.addEventListener('click', openPopupEditProfile);
 
 // Close popup edit profile
 function closePopupEditProfile() {
-  document.querySelector('.popup').classList.remove('popup_opened');
+  profileEditPopup.classList.remove('popup_opened');
 }
 
 profileEditButtonClose.addEventListener('click', closePopupEditProfile);
@@ -32,7 +32,7 @@ function formSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileProfession.textContent = jobInput.value;
-    closePopup();
+    closePopupEditProfile();
   }
 
 formElement.addEventListener('submit', formSubmitHandler);

@@ -31,12 +31,13 @@ const initialCards = [
 // Create cards section
 const cardsSection = document.querySelector('.elements');
 const cardsContainer = cardsSection.querySelector('.elements__cards');
+const cardsAddCardPopup = cardsSection.querySelectorAll('.popup')[1];
 
 // Profile
 const profileSection = document.querySelector('.profile');
 const profileEditButtonOpen = profileSection.querySelector('.profile__edit-button');
-const profileEditButtonClose = document.querySelector('.popup__close-button');
-const cardsAddCardPopup = cardsSection.querySelectorAll('.popup')[1];
+const profileEditPopup = profileSection.querySelector('.popup');
+const profileEditButtonClose = profileEditPopup.querySelector('.popup__close-button');
 const profileAddButtonOpen = profileSection.querySelector('.profile__add-button');
 const profileAddButtonClose = cardsAddCardPopup.querySelector('.popup__close-button');
 
@@ -46,14 +47,12 @@ const formElement = document.querySelector('.form');
 const nameInput = formElement.querySelectorAll('.form__input-text')[0];
 const jobInput = formElement.querySelectorAll('.form__input-text')[1];
 
-const profileName = document.querySelector('.profile__name');
-const profileProfession = document.querySelector('.profile__profession');
+const profileName = profileSection.querySelector('.profile__name');
+const profileProfession = profileSection.querySelector('.profile__profession');
 
-// Open capture
+// Capture
 const popupCapture = document.querySelector('.popup_capture');
 const capture = popupCapture.querySelector('.capture');
-
-// Close capture
 const CaptureCloseButton = popupCapture.querySelector('.capture__close-button');
 
 // Add card form
