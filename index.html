@@ -26,13 +26,13 @@
           <button class="profile__add-button" aria-label="Добавить информацию в профиль" type="button">
           </button>
         </div>
-        <div class="popup">
+        <div class="popup popup_type_edit-profile">
           <div class="popup__container">
             <form class="form" name="edit-profile">
               <h2 class="form__title">Редактировать профиль</h2>
               <fieldset class="form__input-container">
-                <input class="form__input-text" type="text" name="profile__name" value="Жак-Ив Кусто">
-                <input class="form__input-text" type="text" name="profile__profession" value="Исследователь океана">
+                <input class="form__input-text form__input-text_type_name" type="text" name="profile__name">
+                <input class="form__input-text form__input-text_type_profession" type="text" name="profile__profession">
               </fieldset>
               <input class="form__input-submit" type="submit" name="submit" value="Сохранить">
             </form>
@@ -45,24 +45,24 @@
       <section class="elements">
         <ul class="elements__cards">
         </ul>
-        <div class="popup popup_capture">
+        <div class="popup popup_type_capture">
           <div class="popup__container">
-            <figure class="capture">
-              <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg" alt="Картинка из карточки" class="capture__image">
-              <figcaption class="capture__title">Горный Алтай</figcaption>
+            <figure class="popup__capture">
+              <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg" alt="Картинка из карточки" class="popup__capture-image">
+              <figcaption class="popup__capture-title">Горный Алтай</figcaption>
             </figure>
             <button class="popup__close-button" aria-label="Закрыть окно" type="button">
               <img src="./images/close-icon.svg" alt="Кнопка закрыть окно" class="popup__close-button-img">
             </button>
           </div>
         </div>
-        <div class="popup">
+        <div class="popup popup_type_add-card">
           <div class="popup__container">
             <form class="form" name="edit-profile">
               <h2 class="form__title">Новое место</h2>
               <fieldset class="form__input-container">
-                <input class="form__input-text" type="text" name="profile__name" value="" placeholder="Название">
-                <input class="form__input-text" type="text" name="profile__profession" value="" placeholder="Ссылка на картинку">
+                <input class="form__input-text form__input-text_type_image-title" type="text" name="profile__name" placeholder="Название">
+                <input class="form__input-text form__input-text_type_image-link" type="text" name="profile__profession" placeholder="Ссылка на картинку">
               </fieldset>
               <input class="form__input-submit" type="submit" name="submit" value="Создать">
             </form>
@@ -87,10 +87,6 @@
         </div>
     </li>
   </template>
-  <script src="./components/constants.js"></script>
-  <script src="./blocks/elements/elements.js"></script>
-  <script src="./blocks/profile/profile.js"></script>
-  <script src="./blocks/elements/__card/card.js"></script>
-  <script src="./blocks/capture/capture.js"></script>
+  <script src="./components/index.js"></script>
 </body>
 </html>
