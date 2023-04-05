@@ -54,6 +54,8 @@ const profileProfession = profileSection.querySelector('.profile__profession');
 const popupCapture = document.querySelector('.popup_type_capture');
 const capture = popupCapture.querySelector('.popup__capture');
 const captureCloseButton = popupCapture.querySelector('.popup__close-button');
+const captureImage = capture.querySelector('.popup__capture-image');
+const captureTitle = capture.querySelector('.popup__capture-title');
 
 // Add card form section
 const addCardForm = cardsAddCardPopup.querySelector('.form');
@@ -100,12 +102,10 @@ function likeCard(evt) {
 // Open capture
 function createCapture(evt) {
   const target = evt.target;
-  const image = capture.querySelector('.popup__capture-image');
-  const title = capture.querySelector('.popup__capture-title');
   if (target.classList.contains('elements__image')){
-    image.src = target.src;
-    image.alt = target.alt;
-    title.textContent = target.alt;
+    captureImage.src = target.src;
+    captureImage.alt = target.alt;
+    captureTitle.textContent = target.alt;
   }
 }
 
@@ -134,8 +134,8 @@ initialCards.forEach(function (item) {
 
 // Open popup create new card listener
 profileAddButtonOpen.addEventListener('click', () => {
-  addCardnameInput.setAttribute('value', '');
-  addCardlinkInput.setAttribute('value', '');
+  addCardnameInput.value = '';
+  addCardlinkInput.value = '';
   openPopup(cardsAddCardPopup);
 });
 
@@ -168,8 +168,8 @@ cardsAddCardPopup.addEventListener('submit', addNewCardSubmitHandler);
 
 //  Open popup edit profile listener
 profileEditButtonOpen.addEventListener('click', () => {
-  nameInput.setAttribute('value', 'Жак-Ив Кусто');
-  jobInput.setAttribute('value', 'Исследователь океана');
+  nameInput.value = 'Жак-Ив Кусто';
+  jobInput.value = 'Исследователь океана';
   openPopup(profileEditPopup);
 });
 
