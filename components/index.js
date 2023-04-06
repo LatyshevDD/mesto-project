@@ -165,24 +165,24 @@ cardsAddCardPopup.addEventListener('submit', addNewCardSubmitHandler);
 
 
 // ------------- Profile ----------------
+nameInput.value = 'Жак-Ив Кусто';
+jobInput.value = 'Исследователь океана';
 
 //  Open popup edit profile listener
 profileEditButtonOpen.addEventListener('click', () => {
-  nameInput.value = 'Жак-Ив Кусто';
-  jobInput.value = 'Исследователь океана';
   openPopup(profileEditPopup);
 });
 
 
 // Edit-form
-function EditFormSubmitHandler (evt) {
+function editFormSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileProfession.textContent = jobInput.value;
     closePopup(profileEditPopup);
   }
 
-formElement.addEventListener('submit', EditFormSubmitHandler);
+formElement.addEventListener('submit', editFormSubmitHandler);
 
 
 
