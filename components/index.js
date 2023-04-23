@@ -68,6 +68,8 @@ const addCardlinkInput = addCardForm.querySelector('.form__input-text_type_image
 // Close popup function
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', EscapeClosePopup);
+  popup.removeEventListener('click', overlayClosePopup);
 }
 
 profileEditButtonClose.addEventListener('click', () => {closePopup(profileEditPopup)});
@@ -75,9 +77,27 @@ profileAddButtonClose.addEventListener('click', () => {closePopup(cardsAddCardPo
 captureCloseButton.addEventListener('click', () => {closePopup(popupCapture)});
 
 
+function overlayClosePopup(evt) {
+  if (evt.target.closest('.popup__container')) {
+    return;
+  }
+  closePopup(evt.target.closest('.popup'));
+}
+
+
+function EscapeClosePopup(evt) {
+  const openedPopup = document.querySelector('.popup_opened');
+  if (evt.key == "Escape" && openedPopup) {
+    closePopup(openedPopup);
+  }
+}
+
+
 //Open popup function
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', EscapeClosePopup);
+  popup.addEventListener('click', overlayClosePopup);
 }
 
 
