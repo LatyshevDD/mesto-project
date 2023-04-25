@@ -60,6 +60,12 @@
 @import url(../blocks/form/__input-container/form__input-container.css);
 @import url(../blocks/form/__input-text/form__input-text.css);
 @import url(../blocks/form/__input-submit/form__input-submit.css);
+@import url(../blocks/form/__input-submit/_disabled/orm__input-submit_disabled.css);
+@import url(../blocks/form/__input-text/_type_error/form__input-text_type_error.css);
+@import url(../blocks/form/__input-error/form__input-error.css);
+@import url(../blocks/form/__input-error/_active/form__input-error_active.css);
+@import url(../blocks/form/__input-text/_type_profession/form__input-text_type_profession.css);
+@import url(../blocks/form/__input-text/_image-link/form__input-text_type_image-link.css);
 
 
 

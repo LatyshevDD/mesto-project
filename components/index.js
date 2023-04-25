@@ -181,7 +181,7 @@ function addNewCardSubmitHandler (evt) {
   closePopup(cardsAddCardPopup);
 }
 
-cardsAddCardPopup.addEventListener('submit', addNewCardSubmitHandler);
+addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 
 
 // ------------- Profile ----------------
@@ -205,8 +205,46 @@ function editFormSubmitHandler (evt) {
 formElement.addEventListener('submit', editFormSubmitHandler);
 
 
+// --------- Form validation ----------
 
+function showInputError(formElement, inputElement, errorMessage) {
+  const errorElement = formElement.querySelector(`.form__input-error_${inputElement.id}`);
+  inputElement.classList.add('form__input-text_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__input-error_active');
+}
 
+function hideInputError(formElement, inputElement) {
+  const errorElement = formElement.querySelector(`.form__input-error_${inputElement.id}`);
+  inputElement.classList.remove('form__input-text_type_error');
+  errorElement.classList.remove('form__input-error_active');
+  errorElement.textContent = '';
+}
 
+function checkInputValidity(formElement, inputElement) {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
+  }
+}
+
+function setEventListeners(formElement) {
+  const inputList = Array.from(formElement.querySelectorAll('.form__input-text'));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+    });
+  });
+}
+
+function enableValidation() {
+  const formList = Array.from(document.querySelectorAll('.form'));
+  formList.forEach((formElement) => {
+    setEventListeners(formElement);
+  });
+}
+
+enableValidation();
 
 

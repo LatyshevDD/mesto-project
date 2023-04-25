@@ -1,0 +1,6 @@
+.form__input-submit_disabled {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 2px;
+  color: rgba(0, 0, 0, .2);
+}
