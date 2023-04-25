@@ -222,6 +222,12 @@ function hideInputError(formElement, inputElement) {
 }
 
 function checkInputValidity(formElement, inputElement) {
+  if (inputElement.validity.patternMismatch) {
+  inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+  } else {
+  inputElement.setCustomValidity("");
+  }
+
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage);
   } else {
@@ -231,9 +237,12 @@ function checkInputValidity(formElement, inputElement) {
 
 function setEventListeners(formElement) {
   const inputList = Array.from(formElement.querySelectorAll('.form__input-text'));
+  const buttonElement = formElement.querySelector('.form__input-submit');
+  toggleButtonState(inputList, buttonElement);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 }
@@ -247,4 +256,20 @@ function enableValidation() {
 
 enableValidation();
 
+// Submit button activation
 
+function hasInvalidInput(inputList) {
+  return inputList.some((input) => {
+    return !input.validity.valid;
+  })
+}
+
+function toggleButtonState(inputList, buttonElement) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add('form__input-submit_disabled');
+    buttonElement.disabled = true;
+  } else {
+    buttonElement.classList.remove('form__input-submit_disabled');
+    buttonElement.disabled = false;
+  }
+}

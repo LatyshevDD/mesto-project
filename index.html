@@ -31,12 +31,12 @@
             <form class="form" name="edit-profile" novalidate>
               <h2 class="form__title">Редактировать профиль</h2>
               <fieldset class="form__input-container">
-                <input class="form__input-text form__input-text_type_name" type="text" name="profile-name" id="profile-name" minlength="2" maxlength="40" required>
+                <input class="form__input-text form__input-text_type_name" type="text" name="profile-name" id="profile-name" minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы" required>
                 <span class="form__input-error form__input-error_profile-name">Необходимо заполнить данное поле</span>
-                <input class="form__input-text form__input-text_type_profession" type="text" name="profile-profession" id="profile-profession" minlength="2" maxlength="200" required>
+                <input class="form__input-text form__input-text_type_profession" type="text" name="profile-profession" id="profile-profession" minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы" required>
                 <span class="form__input-error form__input-error_profile-profession">Необходимо заполнить данное поле</span>
               </fieldset>
-              <input class="form__input-submit form__input-submit_disabled" type="submit" name="submit" value="Сохранить">
+              <input class="form__input-submit" type="submit" name="submit" value="Сохранить" disabled>
             </form>
             <button class="popup__close-button" aria-label="Закрыть окно" type="button">
               <img src="./images/close-icon.svg" alt="Кнопка закрыть окно" class="popup__close-button-img">
@@ -63,7 +63,7 @@
             <form class="form" name="add-card" novalidate>
               <h2 class="form__title">Новое место</h2>
               <fieldset class="form__input-container">
-                <input class="form__input-text form__input-text_type_image-title" type="text" name="image-title" id="image-title" placeholder="Название" minlength="2" maxlength="30" required>
+                <input class="form__input-text form__input-text_type_image-title" type="text" name="image-title" id="image-title" placeholder="Название" minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+" data-error-message="Поле может содержать только латинские буквы, кириллические буквы, знаки дефиса и пробелы" required>
                 <span class="form__input-error form__input-error_image-title">Необходимо заполнить данное поле</span>
                 <input class="form__input-text form__input-text_type_image-link" type="url" name="image-link" id="image-link" placeholder="Ссылка на картинку" required>
                 <span class="form__input-error form__input-error_image-link">Необходимо заполнить данное поле</span>
