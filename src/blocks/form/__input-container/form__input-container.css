@@ -5,11 +5,12 @@
   margin: 0;
   padding: 0;
   width: 358px;
-  padding-bottom: 31px;
+  padding-bottom: 18px;
 }
 
 @media screen and (max-width: 640px) {
   .form__input-container {
     width: 238px;
+    padding-bottom: 15px;
   }
 }

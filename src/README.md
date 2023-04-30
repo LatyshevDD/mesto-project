@@ -8,5 +8,3 @@
 * Java Script
 
 
-Ссылка на Github pages - https://latyshevdd.github.io/mesto-project/
-

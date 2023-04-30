@@ -1,3 +1,4 @@
+import '../pages/index.css';
 
 // --------- Close popups  ---------------
 
@@ -22,6 +23,10 @@ cardsAddButtonOpen.addEventListener('click', () => {
   addCardnameInput.value = '';
   addCardlinkInput.value = '';
   openPopup(cardsAddCardPopup);
+  hideInputError(addCardForm, addCardnameInput, {inputErrorClass: 'form__input-text_type_error',
+  errorClass: 'form__input-error_active'});
+  hideInputError(addCardForm, addCardlinkInput, {inputErrorClass: 'form__input-text_type_error',
+  errorClass: 'form__input-error_active'});
 });
 
 //  Open popup edit profile listener
