@@ -1,11 +1,6 @@
-import { openPopup } from "./modal.js";
-import { closePopup } from "./modal.js";
-import { popupCapture } from "./modal.js";
-import { createCapture } from "./modal.js";
-import { cardsAddCardPopup } from "./modal.js";
-import { addCardnameInput } from "./modal.js";
-import { addCardlinkInput } from "./modal.js";
-import { clearInputsCardValues } from "./modal.js";
+import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput } from "./modal.js";
+
+import { addNewCard, clearInputsCardValues } from "./index.js";
 
 export const cardsSection = document.querySelector('.elements');
 export const cardsContainer = cardsSection.querySelector('.elements__cards');
@@ -54,23 +49,17 @@ export function createCard (obj) {
   const cardLink = obj.link;
   const cardTemplate = document.querySelector('.cardTemplate').content;
   const card = cardTemplate.querySelector('.elements__card').cloneNode(true);
-  card.querySelector('.elements__image').src = cardLink;
-  card.querySelector('.elements__image').alt = cardName;
+  const cardImage = card.querySelector('.elements__image');
+  cardImage.src = cardLink;
+  cardImage.alt = cardName;
   card.querySelector('.elements__title').textContent = cardName;
   card.querySelector('.elements__like-button').addEventListener('click', likeCard);
   card.querySelector('.elements__close-button').addEventListener('click', deleteCard);
-  card.querySelector('.elements__image').addEventListener('click', createCapture);
-  card.querySelector('.elements__image').addEventListener('click', () => {openPopup(popupCapture)});
+  cardImage.addEventListener('click', function() {
+    createCapture;
+    openPopup(popupCapture);
+  });
   return card;
-}
-
-export function addNewCard() {
-  const name = addCardnameInput.value;
-  const link = addCardlinkInput.value;
-  const cardObject = {};
-  cardObject.name = name;
-  cardObject.link = link;
-  cardsContainer.prepend(createCard(cardObject));
 }
 
 export function addNewCardSubmitHandler (evt) {
