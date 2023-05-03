@@ -2,6 +2,10 @@ import { cardsSection, cardsContainer } from "./card.js";
 
 import { hasInvalidInput } from "./validate.js";
 
+import { changeUserInformation } from "./api.js";
+
+import { getProdileInfoFromServer } from "./index";
+
 export const profileSection = document.querySelector('.profile');
 export const profileEditButtonOpen = profileSection.querySelector('.profile__edit-button');
 export const profileEditPopup = profileSection.querySelector('.popup_type_edit-profile');
@@ -29,6 +33,7 @@ export const profileEditSubmitButton = profileEditPopup.querySelector('.form__in
 
 export const profileName = profileSection.querySelector('.profile__name');
 export const profileProfession = profileSection.querySelector('.profile__profession');
+export const profileAvatar = profileSection.querySelector('.profile__avatar');
 
 export const captureCloseButton = popupCapture.querySelector('.popup__close-button');
 
@@ -63,8 +68,10 @@ export function openPopup(popup) {
 
 export function editFormSubmitHandler (evt) {
   evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileProfession.textContent = jobInput.value;
+  changeUserInformation(nameInput.value, jobInput.value)
+  .then(() => {
+    getProdileInfoFromServer();
+  });
   closePopup(profileEditPopup);
 }
 

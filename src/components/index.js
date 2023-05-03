@@ -1,16 +1,32 @@
 //--------- Imports  ---------------
+import { getUserInformation, getInitialCards, postNewCard, changeUserInformation } from './api';
+
 import '../pages/index.css';
 
 import { profileEditSubmitButton, closePopup, EscapeClosePopup, overlayClosePopup, openPopup, cardsAddSubmitButton, captureImage,
 capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
 profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
 profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
-editFormSubmitHandler, toggleButtonState, createCapture } from './modal.js';
+editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar } from './modal.js';
 
-import { cardsSection, cardsContainer, initialCards, likeCard, deleteCard, createCard, addNewCardSubmitHandler } from './card.js';
+import { cardsSection, cardsContainer, likeCard, deleteCard, createCard, addNewCardSubmitHandler } from './card.js';
 
 import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from './validate.js';
 
+// --------- Profile  ---------------
+export function getProdileInfoFromServer() {
+  getUserInformation()
+    .then(data => {
+      profileName.textContent = data.name;
+      profileProfession.textContent = data.about;
+      profileAvatar.src = data.avatar;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+getProdileInfoFromServer();
 
 // --------- Close popups  ---------------
 profileEditButtonClose.addEventListener('click', () => {closePopup(profileEditPopup)});
@@ -45,14 +61,17 @@ profileEditButtonOpen.addEventListener('click', () => {
 
 // ------------ Cards  --------------
 // Creat cards section
-initialCards.forEach(function (item) {
-  cardsContainer.prepend(createCard (item));
+getInitialCards().then(data => {
+  data.forEach(function (item) {
+    cardsContainer.prepend(createCard (item));
+  });
 });
 
 // Add new card function
 export function addNewCard() {
   const name = addCardnameInput.value;
   const link = addCardlinkInput.value;
+  postNewCard(name, link);
   const cardObject = {};
   cardObject.name = name;
   cardObject.link = link;
@@ -65,12 +84,7 @@ addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 
 
 // ------------ Popups  --------------
-nameInput.value = 'Жак-Ив Кусто';
-jobInput.value = 'Исследователь океана';
-
-
 profileEditForm.addEventListener('submit', editFormSubmitHandler);
-
 
 // --------- Form validation -------------
 enableValidation({

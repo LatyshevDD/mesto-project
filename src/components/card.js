@@ -5,33 +5,7 @@ import { addNewCard, clearInputsCardValues } from "./index.js";
 export const cardsSection = document.querySelector('.elements');
 export const cardsContainer = cardsSection.querySelector('.elements__cards');
 
-
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-  ];
+import { getInitialCards, deleteCardFromServer } from "./api.js";
 
 export function likeCard(evt) {
   const target = evt.target;
@@ -40,18 +14,22 @@ export function likeCard(evt) {
 
 export function deleteCard(evt) {
   const target = evt.target;
-  target.closest('.elements__card').remove();
+  const card = target.closest('.elements__card');
+  card.remove();
+  deleteCardFromServer(card.dataset.cardId);
 }
 
 
 export function createCard (obj) {
   const cardName = obj.name;
   const cardLink = obj.link;
+  const cardId = obj._id;
   const cardTemplate = document.querySelector('.cardTemplate').content;
   const card = cardTemplate.querySelector('.elements__card').cloneNode(true);
   const cardImage = card.querySelector('.elements__image');
   cardImage.src = cardLink;
   cardImage.alt = cardName;
+  card.dataset.cardId = cardId;
   card.querySelector('.elements__title').textContent = cardName;
   card.querySelector('.elements__like-button').addEventListener('click', likeCard);
   card.querySelector('.elements__close-button').addEventListener('click', deleteCard);
