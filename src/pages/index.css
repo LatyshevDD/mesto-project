@@ -40,6 +40,7 @@
 @import url(../blocks/elements/__close-button/elements__close-button.css);
 @import url(../blocks/elements/__likes-container/elements__likes-container.css);
 @import url(../blocks/elements/__like-counter/elements__like-counter.css);
+@import url(../blocks/elements/__close-button/_disabled/elements__close-button_disabled.css);
 
 /* Footer */
 @import url(../blocks/footer/footer.css);

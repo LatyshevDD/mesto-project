@@ -4,7 +4,7 @@ import { hasInvalidInput } from "./validate.js";
 
 import { changeUserInformation } from "./api.js";
 
-import { getProdileInfoFromServer } from "./index";
+import { getProfileInfoFromServer } from "./index";
 
 export const profileSection = document.querySelector('.profile');
 export const profileEditButtonOpen = profileSection.querySelector('.profile__edit-button');
@@ -70,7 +70,7 @@ export function editFormSubmitHandler (evt) {
   evt.preventDefault();
   changeUserInformation(nameInput.value, jobInput.value)
   .then(() => {
-    getProdileInfoFromServer();
+    getProfileInfoFromServer();
   });
   closePopup(profileEditPopup);
 }

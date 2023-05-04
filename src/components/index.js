@@ -1,5 +1,5 @@
 //--------- Imports  ---------------
-import { getUserInformation, getInitialCards, postNewCard, changeUserInformation } from './api';
+import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer } from './api';
 
 import '../pages/index.css';
 
@@ -9,12 +9,12 @@ profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, ad
 profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
 editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar } from './modal.js';
 
-import { cardsSection, cardsContainer, likeCard, deleteCard, createCard, addNewCardSubmitHandler } from './card.js';
+import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from './card.js';
 
 import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from './validate.js';
 
 // --------- Profile  ---------------
-export function getProdileInfoFromServer() {
+export function getProfileInfoFromServer() {
   getUserInformation()
     .then(data => {
       profileName.textContent = data.name;
@@ -26,7 +26,7 @@ export function getProdileInfoFromServer() {
     });
 }
 
-getProdileInfoFromServer();
+getProfileInfoFromServer();
 
 // --------- Close popups  ---------------
 profileEditButtonClose.addEventListener('click', () => {closePopup(profileEditPopup)});
@@ -61,22 +61,37 @@ profileEditButtonOpen.addEventListener('click', () => {
 
 // ------------ Cards  --------------
 // Creat cards section
-getInitialCards().then(data => {
-  data.forEach(function (item) {
-    cardsContainer.prepend(createCard (item));
-  });
-});
+getUserInformation()
+.then(data => {
+  return data;
+})
+.then(userData => {
+  getInitialCards()
+    .then(cardsData => {
+    cardsData.forEach(function (item) {
+      cardsContainer.prepend(createCard (item, userData._id));
+    });
+    return cardsData;
+    })
+    .then(cardsData => {
+    const cardsArray = Array.from(cardsContainer.children);
+    cardsArray.reverse();
+    cardsData.forEach((item, index) => {
+      if (item.likes.some(item => {
+        return item.name == userData.name && item.about == userData.about;
+      })) {
+        cardsArray[index].querySelector('.elements__like-button').classList.add('elements__like-button_active');
+      }
+    })
+  })
+  .catch((err) => {
+      console.log(err);
+  })
+})
+.catch((err) => {
+  console.log(err);
+})
 
-// Add new card function
-export function addNewCard() {
-  const name = addCardnameInput.value;
-  const link = addCardlinkInput.value;
-  postNewCard(name, link);
-  const cardObject = {};
-  cardObject.name = name;
-  cardObject.link = link;
-  cardsContainer.prepend(createCard(cardObject));
-}
 
 // Add new card
 addCardForm.addEventListener('submit', addNewCardSubmitHandler);
@@ -95,6 +110,3 @@ enableValidation({
   inputErrorClass: 'form__input-text_type_error',
   errorClass: 'form__input-error_active'
 });
-
-
-
