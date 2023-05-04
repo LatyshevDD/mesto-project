@@ -68,6 +68,8 @@ getUserInformation()
 .then(userData => {
   getInitialCards()
     .then(cardsData => {
+
+    // Формируем секцию с карточками
     cardsData.forEach(function (item) {
       cardsContainer.prepend(createCard (item, userData._id));
     });
@@ -76,14 +78,21 @@ getUserInformation()
     .then(cardsData => {
     const cardsArray = Array.from(cardsContainer.children);
     cardsArray.reverse();
+
+    // Закрашиваем свои лайки
     cardsData.forEach((item, index) => {
       if (item.likes.some(item => {
         return item.name == userData.name && item.about == userData.about;
       })) {
         cardsArray[index].querySelector('.elements__like-button').classList.add('elements__like-button_active');
       }
-    })
-  })
+    });
+    // Устанавливаем количество лайков
+    cardsData.forEach((item, index) => {
+      cardsArray[index].querySelector('.elements__like-counter').textContent = item.likes.length;
+    });
+
+})
   .catch((err) => {
       console.log(err);
   })

@@ -12,30 +12,35 @@ export function likeCardSubmitHandler(evt) {
   const card = target.closest('.elements__card');
   const cardId = card.dataset.cardId;
   getInitialCards()
-    .then(data => {
-      let cardObject = data.find(item => {
+    .then(cardsData => {
+      let cardObject = cardsData.find(item => {
         return item._id == cardId;
       });
       let cardObjectLikes = cardObject.likes;
       getUserInformation()
+        //Закрашиваем лайк и отправляем на сервер
         .then(userData => {
           if (!cardObjectLikes.some(item => {
             return item.name == userData.name && item.about == userData.about;
           })) {
-            likeCardToServer(cardObject._id);
-            target.classList.add('elements__like-button_active');
+            likeCardToServer(cardObject._id)
+              .then(cardInfo => {
+                target.classList.add('elements__like-button_active');
+                target.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+              });
+
           } else {
-            disLikeCardFromServer(cardObject._id);
-            target.classList.remove('elements__like-button_active');
+            disLikeCardFromServer(cardObject._id)
+            .then(cardInfo => {
+              target.classList.remove('elements__like-button_active');
+              target.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+            });
           }
         })
         .catch((err) => {
           console.log(err);
-          })
+          });
     })
-    .catch((err) => {
-      console.log(err);
-      });
 }
 
 export function deleteCard(evt) {
