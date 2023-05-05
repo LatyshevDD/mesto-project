@@ -2,7 +2,7 @@ import { cardsSection, cardsContainer } from "./card.js";
 
 import { hasInvalidInput } from "./validate.js";
 
-import { changeUserInformation } from "./api.js";
+import { changeUserInformation, changeUserAvatar } from "./api.js";
 
 import { getProfileInfoFromServer } from "./index";
 
@@ -33,10 +33,15 @@ export const profileEditSubmitButton = profileEditPopup.querySelector('.form__in
 
 export const profileName = profileSection.querySelector('.profile__name');
 export const profileProfession = profileSection.querySelector('.profile__profession');
+export const profileAvatarContainer = profileSection.querySelector('.profile__avatar-container');
 export const profileAvatar = profileSection.querySelector('.profile__avatar');
 
 export const captureCloseButton = popupCapture.querySelector('.popup__close-button');
 
+export const editAvatarPopup = document.querySelector('.popup_type_edit-avatar');
+export const editAvatarForm = editAvatarPopup.querySelector('.form');
+export const editAvatarSubmitButton = editAvatarPopup.querySelector('.form__input-submit');
+export const editAvatarLinkImput = editAvatarPopup.querySelector('.form__input-text_type_image-link');
 
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
@@ -75,6 +80,15 @@ export function editFormSubmitHandler (evt) {
   closePopup(profileEditPopup);
 }
 
+export function editUserAvatarSubmitHandler (evt) {
+  evt.preventDefault();
+  const link = editAvatarLinkImput.value;
+  changeUserAvatar(link)
+  .then(() => {
+    getProfileInfoFromServer();
+  });
+  closePopup(editAvatarPopup);
+}
 
 export function toggleButtonState(inputList, buttonElement, settings) {
   if (hasInvalidInput(inputList)) {
@@ -94,3 +108,12 @@ export function createCapture(evt) {
     captureTitle.textContent = target.alt;
   }
 }
+
+export function setCloseButtonPopupListeners() {
+  const popupList = Array.from(document.querySelectorAll('.popup'));
+  const closeButtonList = Array.from(document.querySelectorAll('.popup__close-button'));
+  closeButtonList.forEach((item, index) => {
+    item.addEventListener('click', () => {closePopup(popupList[index])});
+  })
+}
+

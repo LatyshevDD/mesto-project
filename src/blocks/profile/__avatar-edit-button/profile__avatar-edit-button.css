@@ -1,0 +1,8 @@
+.profile__avatar-edit-button {
+  display: block;
+  width: 26px;
+  height: 26px;
+  z-index: 1;
+  position: absolute;
+  display: none;
+}

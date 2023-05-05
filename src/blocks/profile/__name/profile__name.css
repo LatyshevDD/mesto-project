@@ -21,3 +21,7 @@
     grid-row: 1;
 }
 }
+
+.profile__name:hover .profile__info::after{
+  display: block;
+}

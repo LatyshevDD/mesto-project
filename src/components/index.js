@@ -7,7 +7,8 @@ import { profileEditSubmitButton, closePopup, EscapeClosePopup, overlayClosePopu
 capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
 profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
 profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
-editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar } from './modal.js';
+editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar, setCloseButtonPopupListeners, editAvatarPopup, editAvatarSubmitButton,
+editAvatarLinkImput, editAvatarForm, profileAvatarContainer, editUserAvatarSubmitHandler } from './modal.js';
 
 import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from './card.js';
 
@@ -25,15 +26,10 @@ export function getProfileInfoFromServer() {
       console.log(err);
     });
 }
-
 getProfileInfoFromServer();
 
 // --------- Close popups  ---------------
-profileEditButtonClose.addEventListener('click', () => {closePopup(profileEditPopup)});
-cardsAddButtonClose.addEventListener('click', () => {closePopup(cardsAddCardPopup)});
-captureCloseButton.addEventListener('click', () => {closePopup(popupCapture)});
-
-
+setCloseButtonPopupListeners();
 
 // --------- Open popups  ---------------
 export function clearInputsCardValues () {
@@ -48,6 +44,14 @@ cardsAddButtonOpen.addEventListener('click', () => {
   openPopup(cardsAddCardPopup);
   resetInputErrors(addCardForm);
   inactiveSubmitButtonState(cardsAddSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
+});
+
+// Open popup edit Avatar
+profileAvatarContainer.addEventListener('click', () => {
+  editAvatarLinkImput.value = '';
+  openPopup(editAvatarPopup);
+  resetInputErrors(editAvatarForm);
+  inactiveSubmitButtonState(editAvatarSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
 });
 
 //  Open popup edit profile listener
@@ -109,6 +113,7 @@ addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 
 // ------------ Popups  --------------
 profileEditForm.addEventListener('submit', editFormSubmitHandler);
+editAvatarForm.addEventListener('submit', editUserAvatarSubmitHandler);
 
 // --------- Form validation -------------
 enableValidation({

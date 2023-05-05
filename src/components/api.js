@@ -103,6 +103,20 @@ export const disLikeCardFromServer = (cardId) => {
     });
 }
 
-//Лайки взять в фукции создания карточек
+export const changeUserAvatar = (link) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    body: JSON.stringify({
+      avatar: `${link}`
+    }),
+    headers: config.headers
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+        return Promise.reject(`Ошибка: ${res.status}`);
+    });
+}
 
 
