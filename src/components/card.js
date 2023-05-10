@@ -1,4 +1,4 @@
-import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput,cardsAddSubmitButton, profileName, profileProfession, setLoadingToSubmitButton } from "./modal.js";
+import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput,cardsAddSubmitButton, profileName, profileProfession, setLoadingToSubmitButton, captureImage, captureTitle } from "./modal.js";
 
 import { clearInputsCardValues } from "./index.js";
 
@@ -77,10 +77,8 @@ export function createCard (obj, userId) {
       card.querySelector('.elements__title').textContent = cardName;
       card.querySelector('.elements__like-button').addEventListener('click', likeCardSubmitHandler);
       cardDeleteButton.addEventListener('click', deleteCard);
-      cardImage.addEventListener('click', function() {
-        createCapture;
-        openPopup(popupCapture);
-      });
+      cardImage.addEventListener('click', createCapture);
+      cardImage.addEventListener('click', () => {openPopup(popupCapture)});
       disableDeleteCardButton(userId, cardOwnerId, cardDeleteButton);
       return card;
 }
