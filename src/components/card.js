@@ -1,4 +1,4 @@
-import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput, profileName, profileProfession } from "./modal.js";
+import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput,cardsAddSubmitButton, profileName, profileProfession, setLoadingToSubmitButton } from "./modal.js";
 
 import { clearInputsCardValues } from "./index.js";
 
@@ -87,6 +87,7 @@ export function createCard (obj, userId) {
 
 export function addNewCardSubmitHandler (evt) {
   evt.preventDefault();
+  setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", true);
   getUserInformation()
     .then(user => {
     return user._id;
@@ -104,6 +105,7 @@ export function addNewCardSubmitHandler (evt) {
     console.log(err);
     })
     .finally(() => {
+      setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", false);
       clearInputsCardValues();
       closePopup(cardsAddCardPopup);
     })

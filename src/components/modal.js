@@ -73,21 +73,29 @@ export function openPopup(popup) {
 
 export function editFormSubmitHandler (evt) {
   evt.preventDefault();
+  setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", true);
   changeUserInformation(nameInput.value, jobInput.value)
   .then(() => {
     getProfileInfoFromServer();
-  });
-  closePopup(profileEditPopup);
+  })
+  .finally(() => {
+    setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", false);
+    closePopup(profileEditPopup);
+  })
 }
 
 export function editUserAvatarSubmitHandler (evt) {
   evt.preventDefault();
   const link = editAvatarLinkImput.value;
+  setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", true);
   changeUserAvatar(link)
   .then(() => {
     getProfileInfoFromServer();
-  });
-  closePopup(editAvatarPopup);
+  })
+  .finally(() => {
+    setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", false);
+    closePopup(editAvatarPopup);
+  })
 }
 
 export function toggleButtonState(inputList, buttonElement, settings) {
@@ -116,4 +124,13 @@ export function setCloseButtonPopupListeners() {
     item.addEventListener('click', () => {closePopup(popupList[index])});
   })
 }
+
+export function setLoadingToSubmitButton(button, standartStatus, isLoading) {
+  if(isLoading) {
+    button.value = "Сохранение...";
+  } else {
+    button.value = standartStatus;
+  }
+}
+
 
