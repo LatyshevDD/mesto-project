@@ -4,7 +4,6 @@ import { hasInvalidInput } from "./validate.js";
 
 import { changeUserInformation, changeUserAvatar } from "./api.js";
 
-import { getProfileInfoFromServer } from "./index";
 
 export const profileSection = document.querySelector('.profile');
 export const profileEditButtonOpen = profileSection.querySelector('.profile__edit-button');
@@ -45,11 +44,11 @@ export const editAvatarLinkImput = editAvatarPopup.querySelector('.form__input-t
 
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', EscapeClosePopup);
+  document.removeEventListener('keydown', escapeClosePopup);
   popup.removeEventListener('click', overlayClosePopup);
 }
 
-export function EscapeClosePopup(evt) {
+export function escapeClosePopup(evt) {
   if (evt.key == "Escape") {
     const openedPopup = document.querySelector('.popup_opened');
     if (openedPopup) {
@@ -67,7 +66,7 @@ export function overlayClosePopup(evt) {
 
 export function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', EscapeClosePopup);
+  document.addEventListener('keydown', escapeClosePopup);
   popup.addEventListener('click', overlayClosePopup);
 }
 
@@ -75,12 +74,16 @@ export function editFormSubmitHandler (evt) {
   evt.preventDefault();
   setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", true);
   changeUserInformation(nameInput.value, jobInput.value)
-  .then(() => {
-    getProfileInfoFromServer();
+  .then((data) => {
+      profileName.textContent = data.name;
+      profileProfession.textContent = data.about;
+      closePopup(profileEditPopup);
+  })
+  .catch((err) => {
+    console.log(err);
   })
   .finally(() => {
     setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", false);
-    closePopup(profileEditPopup);
   })
 }
 
@@ -89,12 +92,15 @@ export function editUserAvatarSubmitHandler (evt) {
   const link = editAvatarLinkImput.value;
   setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", true);
   changeUserAvatar(link)
-  .then(() => {
-    getProfileInfoFromServer();
+  .then((data) => {
+    profileAvatar.src = data.avatar;
+    closePopup(editAvatarPopup);
+  })
+  .catch((err) => {
+    console.log(err);
   })
   .finally(() => {
     setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", false);
-    closePopup(editAvatarPopup);
   })
 }
 

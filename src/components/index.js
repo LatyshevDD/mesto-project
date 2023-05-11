@@ -1,9 +1,9 @@
 //--------- Imports  ---------------
-import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer } from './api';
+import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from './api';
 
 import '../pages/index.css';
 
-import { profileEditSubmitButton, closePopup, EscapeClosePopup, overlayClosePopup, openPopup, cardsAddSubmitButton, captureImage,
+import { profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, openPopup, cardsAddSubmitButton, captureImage,
 capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
 profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
 profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
@@ -14,19 +14,28 @@ import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, create
 
 import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from './validate.js';
 
-// --------- Profile  ---------------
-export function getProfileInfoFromServer() {
-  getUserInformation()
-    .then(data => {
-      profileName.textContent = data.name;
-      profileProfession.textContent = data.about;
-      profileAvatar.src = data.avatar;
-    })
-    .catch((err) => {
-      console.log(err);
+// Инициализация проекта
+Promise.all([
+    getUserInformation(),
+    getInitialCards()
+])
+.then((values) => {
+    let userData = values[0];
+    let cardsData = values[1];
+  // Подгружаем информацию о пользователе
+    profileName.textContent = userData.name;
+    profileProfession.textContent = userData.about;
+    profileAvatar.src = userData.avatar;
+
+  // Формируем секцию с карточками
+    cardsData.forEach(function (item) {
+    cardsContainer.prepend(createCard (item, userData._id));
     });
-}
-getProfileInfoFromServer();
+})
+  .catch((err) => {
+      console.log(err);
+  })
+
 
 // --------- Close popups  ---------------
 setCloseButtonPopupListeners();
@@ -39,8 +48,7 @@ export function clearInputsCardValues () {
 
 // Open popup create new card listener
 cardsAddButtonOpen.addEventListener('click', () => {
-  addCardnameInput.value = '';
-  addCardlinkInput.value = '';
+  clearInputsCardValues();
   openPopup(cardsAddCardPopup);
   resetInputErrors(addCardForm);
   inactiveSubmitButtonState(cardsAddSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
@@ -64,48 +72,6 @@ profileEditButtonOpen.addEventListener('click', () => {
 
 
 // ------------ Cards  --------------
-// Creat cards section
-getUserInformation()
-.then(data => {
-  return data;
-})
-.then(userData => {
-  getInitialCards()
-    .then(cardsData => {
-
-    // Формируем секцию с карточками
-    cardsData.forEach(function (item) {
-      cardsContainer.prepend(createCard (item, userData._id));
-    });
-    return cardsData;
-    })
-    .then(cardsData => {
-    const cardsArray = Array.from(cardsContainer.children);
-    cardsArray.reverse();
-
-    // Закрашиваем свои лайки
-    cardsData.forEach((item, index) => {
-      if (item.likes.some(item => {
-        return item.name == userData.name && item.about == userData.about;
-      })) {
-        cardsArray[index].querySelector('.elements__like-button').classList.add('elements__like-button_active');
-      }
-    });
-    // Устанавливаем количество лайков
-    cardsData.forEach((item, index) => {
-      cardsArray[index].querySelector('.elements__like-counter').textContent = item.likes.length;
-    });
-
-})
-  .catch((err) => {
-      console.log(err);
-  })
-})
-.catch((err) => {
-  console.log(err);
-})
-
-
 // Add new card
 addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 

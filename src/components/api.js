@@ -1,3 +1,10 @@
+export function getResponseData(res) {
+  if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  return res.json();
+}
+
 const config = {
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
   headers: {
@@ -10,12 +17,7 @@ export const getUserInformation = () => {
   return fetch(`${config.baseUrl}/users/me`, {
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const changeUserInformation = (name, about) => {
@@ -27,12 +29,7 @@ export const changeUserInformation = (name, about) => {
     }),
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const getInitialCards = () => {
@@ -56,12 +53,7 @@ export const postNewCard = (name, link) => {
     }),
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const deleteCardFromServer = (cardId) => {
@@ -69,12 +61,7 @@ export const deleteCardFromServer = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const likeCardToServer = (cardId) => {
@@ -82,12 +69,7 @@ export const likeCardToServer = (cardId) => {
     method: 'PUT',
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const disLikeCardFromServer = (cardId) => {
@@ -95,12 +77,7 @@ export const disLikeCardFromServer = (cardId) => {
     method: 'DELETE',
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 export const changeUserAvatar = (link) => {
@@ -111,12 +88,7 @@ export const changeUserAvatar = (link) => {
     }),
     headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-        return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(res => getResponseData(res));
 }
 
 
