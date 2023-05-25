@@ -91,4 +91,4 @@ export const changeUserAvatar = (link) => {
     .then(res => getResponseData(res));
 }
 
-
+// Формирование класса
