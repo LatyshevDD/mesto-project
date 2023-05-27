@@ -68,10 +68,13 @@ export function createCard (obj, userId) {
       cardImage.src = cardLink;
       cardImage.alt = cardName;
       card.querySelector('.elements__title').textContent = cardName;
+
+
       card.querySelector('.elements__like-button').addEventListener('click', () => {likeCardSubmitHandler(cardLikeButton, obj, userId)});
       cardDeleteButton.addEventListener('click', () => {deleteCard(card, cardId)});
       cardImage.addEventListener('click', createCapture);
       cardImage.addEventListener('click', () => {openPopup(popupCapture)});
+
       disableDeleteCardButton(userId, cardOwnerId, cardDeleteButton);
   // Закрашиваем свои лайки
       if (obj.likes.some(item => {
@@ -106,10 +109,12 @@ export function addNewCardSubmitHandler (evt) {
 // ========= ООП ===========
 
 export default class Card {
-  constructor({ data, handleButtonClick }, cardTeamplateSelector) {
+  constructor({ data, handleButtonClick, likeApiRequest, dislikeApiRequest }, cardTeamplateSelector) {
     this._data = data;
     this._cardTeamplateSelector = cardTeamplateSelector;
     this._handleButtonClick = handleButtonClick;
+    this._likeApiRequest = likeApiRequest;
+    this._dislikeApiRequest = dislikeApiRequest;
   }
 
   _getElement() {
@@ -122,9 +127,39 @@ export default class Card {
     return cardElement;
   }
 
-_setEventListeners() {
-  this._element.addEventListener("click", () => {
-    this._handleButtonClick();
+  _likeCardSubmitHandler(likeButton, obj, userId) {
+    const cardObject = obj;
+    const cardObjectLikes = cardObject.likes;
+
+    //Закрашиваем лайк и отправляем на сервер
+    if (!cardObjectLikes.some(item => {
+      return item._id == userId;
+    })) {
+      this._likeApiRequest(cardObject._id)
+        .then((cardInfo) => {
+          likeButton.classList.add('elements__like-button_active');
+          likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    } else {
+      this._dislikeApiRequest(cardObject._id)
+      .then((cardInfo) => {
+        likeButton.classList.remove('elements__like-button_active');
+        likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }
+
+
+_setEventListeners(likeButton, obj, userId) {
+  likeButton.addEventListener("click", () => {
+    this._likeCardSubmitHandler(likeButton, obj, userId);
   })
 
 }
@@ -151,7 +186,7 @@ generateCard(userId) {
     this._disableDeleteCardButton(userId, cardOwnerId, cardDeleteButton);
 
   // Закрашиваем свои лайки
-      if (this._element.likes.some(item => {
+      if (this._data.likes.some(item => {
         return item._id ==  userId;
       })) {
         cardLikeButton.classList.add('elements__like-button_active');
@@ -161,7 +196,7 @@ generateCard(userId) {
       cardLikeCounter.textContent = this._data.likes.length;
 
 // Навешиваем слушатели
-    // this._setEventListeners();
+    this._setEventListeners(cardLikeButton, this._data, userId);
 
     return this._element;
   }

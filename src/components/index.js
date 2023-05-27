@@ -30,9 +30,9 @@ Promise.all([
     profileAvatar.src = userData.avatar;
 
   // Формируем секцию с карточками
-    cardsData.forEach(function (item) {
-    cardsContainer.prepend(createCard (item, userData._id));
-    });
+    // cardsData.forEach(function (item) {
+    // cardsContainer.prepend(createCard (item, userData._id));
+    // });
 })
   .catch((err) => {
       console.log(err);
@@ -97,9 +97,11 @@ enableValidation({
 // ======= ООП ========
 
 
-import {cardsContainerSelector} from "../utils/constants.js";
+import {cardsContainerSelector, cardTeamplateSelector} from "../utils/constants.js";
 import Api from "./api.js";
 import Section from "./Section.js";
+import Card from "./card";
+
 
 const newApi = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
@@ -120,10 +122,24 @@ Promise.all([
   let cardsData = values[1];
 
   // Формируем секцию с карточками
-  const cardSection = new Section({items: cardsData, renderer: () => {
+  const cardSection = new Section({
+    items: cardsData,
+    renderer: (item) => {
+      const newCard = new Card({
+        data: item,
+        handleButtonClick: () => {},
+        likeApiRequest: (cardId) => {return newApi.likeCardToServer(cardId)},
+        dislikeApiRequest: (cardId) => {return newApi.disLikeCardFromServer(cardId)}
+      }, cardTeamplateSelector);
+      const cardElement = newCard.generateCard(userData._id);
+      const likeButton = cardElement.querySelector(".elements__like-button");
+
+
+      cardSection.addItem(cardElement);
   }}, cardsContainerSelector);
 
-  console.log(cardSection);
+  cardSection.renderItems();
+
 
 })
 .catch((err) => {
