@@ -100,3 +100,69 @@ export function addNewCardSubmitHandler (evt) {
     clearInputsCardValues();
   })
 }
+
+
+
+// ========= ООП ===========
+
+export default class Card {
+  constructor({ data, handleButtonClick }, cardTeamplateSelector) {
+    this._data = data;
+    this._cardTeamplateSelector = cardTeamplateSelector;
+    this._handleButtonClick = handleButtonClick;
+  }
+
+  _getElement() {
+    const cardElement = document
+      .querySelector(this._cardTeamplateSelector)
+      .content
+      .querySelector('.elements__card')
+      .cloneNode(true);
+
+    return cardElement;
+  }
+
+_setEventListeners() {
+  this._element.addEventListener("click", () => {
+    this._handleButtonClick();
+  })
+
+}
+
+_disableDeleteCardButton(userId, cardOwnerId, button){
+  if(userId != cardOwnerId) {
+    button.classList.add('elements__close-button_disabled');
+  }
+}
+
+generateCard(userId) {
+    this._element = this._getElement();
+
+    const cardOwnerId = this._data.owner._id;
+    const cardDeleteButton = this._element.querySelector('.elements__close-button');
+    const cardLikeButton = this._element.querySelector('.elements__like-button');
+    const cardLikeCounter = this._element.querySelector('.elements__like-counter');
+
+    this._element.querySelector('.elements__image').src = this._data.link;
+    this._element.querySelector('.elements__image').alt = this._data.name;
+    this._element.querySelector('.elements__title').textContent = this._data.name;
+
+  // Удаляем кнопку удаления карточки у чужих карточек
+    this._disableDeleteCardButton(userId, cardOwnerId, cardDeleteButton);
+
+  // Закрашиваем свои лайки
+      if (this._element.likes.some(item => {
+        return item._id ==  userId;
+      })) {
+        cardLikeButton.classList.add('elements__like-button_active');
+      }
+
+ // Устанавливаем количество лайков
+      cardLikeCounter.textContent = this._data.likes.length;
+
+// Навешиваем слушатели
+    // this._setEventListeners();
+
+    return this._element;
+  }
+}

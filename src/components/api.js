@@ -182,13 +182,5 @@ export default class Api {
 }
 
 
-// Экземпляр для тестов
 
-const newApi = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
-  headers: {
-    authorization: '902e7d86-3306-44b1-a025-c502f89e3c4a',
-    'Content-Type': 'application/json'
-  }
-});
 
