@@ -29,7 +29,7 @@ Promise.all([
     profileProfession.textContent = userData.about;
     profileAvatar.src = userData.avatar;
 
-  // Формируем секцию с карточками
+  // Формируем секцию с карточками. +++Закоментил, т.к. реализовал функционал через классы
     // cardsData.forEach(function (item) {
     // cardsContainer.prepend(createCard (item, userData._id));
     // });
