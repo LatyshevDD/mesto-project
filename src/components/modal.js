@@ -1,8 +1,8 @@
-import { cardsSection, cardsContainer } from "./card.js";
+import { cardsSection, cardsContainer } from "./Card.js";
 
 import { hasInvalidInput } from "./validate.js";
 
-import { changeUserInformation, changeUserAvatar } from "./api.js";
+import { changeUserInformation, changeUserAvatar } from "./Api.js";
 
 
 export const profileSection = document.querySelector('.profile');

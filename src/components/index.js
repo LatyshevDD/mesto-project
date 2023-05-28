@@ -1,7 +1,7 @@
 //--------- Imports  ---------------
-import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from './api';
+import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from './Api';
 
-import '../pages/index.css';
+import '../index.css';
 
 import { profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, openPopup, cardsAddSubmitButton, captureImage,
 capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
@@ -10,7 +10,7 @@ profileEditForm, nameInput, jobInput, profileName, profileProfession, captureClo
 editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar, setCloseButtonPopupListeners, editAvatarPopup, editAvatarSubmitButton,
 editAvatarLinkImput, editAvatarForm, profileAvatarContainer, editUserAvatarSubmitHandler } from './modal.js';
 
-import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from './card.js';
+import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from './Card.js';
 
 import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from './validate.js';
 
@@ -98,9 +98,9 @@ enableValidation({
 
 
 import {cardsContainerSelector, cardTeamplateSelector} from "../utils/constants.js";
-import Api from "./api.js";
+import Api from "./Api.js";
 import Section from "./Section.js";
-import Card from "./card";
+import Card from "./Card";
 
 
 const newApi = new Api({

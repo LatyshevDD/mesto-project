@@ -5,7 +5,7 @@ import { clearInputsCardValues } from "./index.js";
 export const cardsSection = document.querySelector('.elements');
 export const cardsContainer = cardsSection.querySelector('.elements__cards');
 
-import { getInitialCards, deleteCardFromServer, getUserInformation, postNewCard, likeCardToServer, disLikeCardFromServer, getResponseData } from "./api.js";
+import { getInitialCards, deleteCardFromServer, getUserInformation, postNewCard, likeCardToServer, disLikeCardFromServer, getResponseData } from "./Api.js";
 
 export function likeCardSubmitHandler(likeButton, obj, userId) {
   const cardObject = obj;
