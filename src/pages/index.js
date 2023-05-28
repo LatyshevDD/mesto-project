@@ -1,5 +1,5 @@
 //--------- Imports  ---------------
-import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from './Api';
+import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from '../components/Api';
 
 import '../index.css';
 
@@ -8,11 +8,11 @@ capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, card
 profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
 profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
 editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar, setCloseButtonPopupListeners, editAvatarPopup, editAvatarSubmitButton,
-editAvatarLinkImput, editAvatarForm, profileAvatarContainer, editUserAvatarSubmitHandler } from './modal.js';
+editAvatarLinkImput, editAvatarForm, profileAvatarContainer, editUserAvatarSubmitHandler } from '../components/modal.js';
 
-import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from './Card.js';
+import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
 
-import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from './validate.js';
+import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from '../components/validate.js';
 
 
 
@@ -98,9 +98,9 @@ enableValidation({
 
 
 import {cardsContainerSelector, cardTeamplateSelector} from "../utils/constants.js";
-import Api from "./Api.js";
-import Section from "./Section.js";
-import Card from "./Card";
+import Api from "../components/Api.js";
+import Section from "../components/Section.js";
+import Card from "../components/Card";
 
 
 const newApi = new Api({
