@@ -1,9 +1,8 @@
-import { openPopup, closePopup, popupCapture, createCapture, cardsAddCardPopup, addCardnameInput, addCardlinkInput,cardsAddSubmitButton, profileName, profileProfession, setLoadingToSubmitButton, captureImage, captureTitle } from "./modal.js";
+import {popupCapture, addCardnameInput, addCardlinkInput, cardsAddCardPopup, cardsAddSubmitButton} from "../utils/constants.js";
+
+import { createCapture, openPopup, closePopup, profileName, profileProfession, setLoadingToSubmitButton, captureImage, captureTitle } from "./modal.js";
 
 import { clearInputsCardValues } from "../pages/index.js";
-
-export const cardsSection = document.querySelector('.elements');
-export const cardsContainer = cardsSection.querySelector('.elements__cards');
 
 import { getInitialCards, deleteCardFromServer, getUserInformation, postNewCard, likeCardToServer, disLikeCardFromServer, getResponseData } from "./Api.js";
 

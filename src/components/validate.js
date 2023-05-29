@@ -1,4 +1,6 @@
-import { toggleButtonState, profileEditButtonOpen, profileEditForm } from "./modal.js";
+import { profileEditButtonOpen, profileEditForm } from "../utils/constants.js";
+
+import {toggleButtonState} from "./modal.js";
 
 export function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`.form__input-error_${inputElement.id}`);

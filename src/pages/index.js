@@ -3,12 +3,13 @@ import { getUserInformation, getInitialCards, postNewCard, changeUserInformation
 
 import '../index.css';
 
-import { profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, openPopup, cardsAddSubmitButton, captureImage,
+import { profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
 capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
 profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
-profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton,
-editFormSubmitHandler, toggleButtonState, createCapture, profileAvatar, setCloseButtonPopupListeners, editAvatarPopup, editAvatarSubmitButton,
-editAvatarLinkImput, editAvatarForm, profileAvatarContainer, editUserAvatarSubmitHandler } from '../components/modal.js';
+profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton, toggleButtonState, createCapture, profileAvatar, editAvatarPopup, editAvatarSubmitButton,
+editAvatarLinkImput, editAvatarForm, profileAvatarContainer } from '../utils/constants.js';
+
+import {setCloseButtonPopupListeners, openPopup, editFormSubmitHandler, editUserAvatarSubmitHandler} from "../components/modal.js";
 
 import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
 
