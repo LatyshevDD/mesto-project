@@ -1,6 +1,6 @@
 export function getResponseData(res) {
   if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
   return res.json();
 }
@@ -94,14 +94,14 @@ export const changeUserAvatar = (link) => {
 // ========= ООП ===========
 
 export default class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
     this.headers = headers;
   }
 
   _getResponseData(res) {
     if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(`Ошибка: ${res.status}`);
     }
     return res.json();
   }
