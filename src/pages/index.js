@@ -3,13 +3,15 @@ import { getUserInformation, getInitialCards, postNewCard, changeUserInformation
 
 import '../index.css';
 
-import { profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
-capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
-profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
-profileEditForm, nameInput, jobInput, profileName, profileProfession, captureCloseButton, toggleButtonState, createCapture, profileAvatar, editAvatarPopup, editAvatarSubmitButton,
-editAvatarLinkImput, editAvatarForm, profileAvatarContainer } from '../utils/constants.js';
+import {
+  profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
+  capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
+  profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
+  profileEditForm, nameInput, jobInput, /*profileName, profileProfession,*/ captureCloseButton, toggleButtonState, createCapture, /*profileAvatar,*/ editAvatarPopup, editAvatarSubmitButton,
+  editAvatarLinkImput, editAvatarForm, profileAvatarContainer
+} from '../utils/constants.js';
 
-import {setCloseButtonPopupListeners, openPopup, editFormSubmitHandler, editUserAvatarSubmitHandler} from "../components/modal.js";
+import { setCloseButtonPopupListeners, openPopup, editFormSubmitHandler, editUserAvatarSubmitHandler } from "../components/modal.js";
 
 import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
 
@@ -18,33 +20,34 @@ import { hideInputError, checkInputValidity, setEventListeners, enableValidation
 
 
 // Инициализация проекта
+/*
 Promise.all([
-    getUserInformation(),
-    getInitialCards()
+  getUserInformation(),
+  getInitialCards()
 ])
-.then((values) => {
+  .then((values) => {
     let userData = values[0];
     let cardsData = values[1];
-  // Подгружаем информацию о пользователе
-    profileName.textContent = userData.name;
-    profileProfession.textContent = userData.about;
-    profileAvatar.src = userData.avatar;
+    // Подгружаем информацию о пользователе
+    // profileName.textContent = userData.name;
+    // profileProfession.textContent = userData.about;
+    // profileAvatar.src = userData.avatar;
 
-  // Формируем секцию с карточками. +++Закоментил, т.к. реализовал функционал через классы
+    // Формируем секцию с карточками. +++Закоментил, т.к. реализовал функционал через классы
     // cardsData.forEach(function (item) {
     // cardsContainer.prepend(createCard (item, userData._id));
     // });
-})
-  .catch((err) => {
-      console.log(err);
   })
-
+  .catch((err) => {
+    console.log(err);
+  })
+*/
 
 // --------- Close popups  ---------------
 setCloseButtonPopupListeners();
 
 // --------- Open popups  ---------------
-export function clearInputsCardValues () {
+export function clearInputsCardValues() {
   addCardnameInput.value = '';
   addCardlinkInput.value = '';
 }
@@ -54,24 +57,24 @@ cardsAddButtonOpen.addEventListener('click', () => {
   clearInputsCardValues();
   openPopup(cardsAddCardPopup);
   resetInputErrors(addCardForm);
-  inactiveSubmitButtonState(cardsAddSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
+  inactiveSubmitButtonState(cardsAddSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 });
 
 // Open popup edit Avatar
-profileAvatarContainer.addEventListener('click', () => {
-  editAvatarLinkImput.value = '';
-  openPopup(editAvatarPopup);
-  resetInputErrors(editAvatarForm);
-  inactiveSubmitButtonState(editAvatarSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
-});
+// profileAvatarContainer.addEventListener('click', () => {
+//   editAvatarLinkImput.value = '';
+//   openPopup(editAvatarPopup);
+//   resetInputErrors(editAvatarForm);
+//   inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+// });
 
 //  Open popup edit profile listener
-profileEditButtonOpen.addEventListener('click', () => {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileProfession.textContent;
-  openPopup(profileEditPopup);
-  inactiveSubmitButtonState(profileEditSubmitButton,{inactiveButtonClass: 'form__input-submit_disabled'});
-});
+// profileEditButtonOpen.addEventListener('click', () => {
+//   nameInput.value = profileName.textContent;
+//   jobInput.value = profileProfession.textContent;
+//   openPopup(profileEditPopup);
+//   inactiveSubmitButtonState(profileEditSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+// });
 
 
 // ------------ Cards  --------------
@@ -81,8 +84,8 @@ addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 
 
 // ------------ Popups  --------------
-profileEditForm.addEventListener('submit', editFormSubmitHandler);
-editAvatarForm.addEventListener('submit', editUserAvatarSubmitHandler);
+//profileEditForm.addEventListener('submit', editFormSubmitHandler);
+//editAvatarForm.addEventListener('submit', editUserAvatarSubmitHandler);
 
 // --------- Form validation -------------
 enableValidation({
@@ -98,11 +101,12 @@ enableValidation({
 // ======= ООП ========
 
 
-import {cardsContainerSelector, cardTeamplateSelector} from "../utils/constants.js";
+import { cardsContainerSelector, cardTeamplateSelector, profileName, profileProfession, profileAvatar } from "../utils/constants.js";
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card";
-
+import UserInfo from '../components/UserInfo';
+import PopupWithForm from '../components/PopupWithForm';
 
 const newApi = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
@@ -112,37 +116,98 @@ const newApi = new Api({
   }
 });
 
+const userInfo = new UserInfo({
+  userNameEl: profileName,
+  userAboutEl: profileProfession,
+  userAvatarEl: profileAvatar
+});
 
+const popupFormProfile = new PopupWithForm({
+  popupSelector: '.popup_type_edit-profile',
+  handleSubmitForm: (data) => {
+    newApi.changeUserInformation(data.name, data.profession)
+      .then(res => {
+        userInfo.setUserInfo(res)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(_ => {
+        //maybe some other logic here
+        // Сохранение... выключить
+      })
+  }
+})
+
+popupFormProfile.setEventListeners();
+
+const popupFormAvatar = new PopupWithForm({
+  popupSelector: '.popup_type_edit-avatar',
+  handleSubmitForm: (data) => {
+    newApi.changeUserAvatar(data.link)
+      .then(res => {
+        userInfo.setUserAvatar(res)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(_ => {
+        //maybe some other logic here
+        // Сохранение... выключить
+      })
+  }
+}
+)
+
+popupFormAvatar.setEventListeners();
 
 Promise.all([
   newApi.getUserInformation(),
   newApi.getInitialCards()
 ])
-.then((values) => {
-  let userData = values[0];
-  let cardsData = values[1];
+  .then((values) => {
+    let userData = values[0];
+    let cardsData = values[1];
 
-  // Формируем секцию с карточками
-  const cardSection = new Section({
-    items: cardsData,
-    renderer: (item) => {
-      const newCard = new Card({
-        data: item,
-        handleButtonClick: () => {},
-        likeApiRequest: (cardId) => {return newApi.likeCardToServer(cardId)},
-        dislikeApiRequest: (cardId) => {return newApi.disLikeCardFromServer(cardId)}
-      }, cardTeamplateSelector);
-      const cardElement = newCard.generateCard(userData._id);
-      const likeButton = cardElement.querySelector(".elements__like-button");
+    // Формируем секцию с карточками
+    const cardSection = new Section({
+      items: cardsData,
+      renderer: (item) => {
+        const newCard = new Card({
+          data: item,
+          handleButtonClick: () => { },
+          likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
+          dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) }
+        }, cardTeamplateSelector);
+        const cardElement = newCard.generateCard(userData._id);
+        const likeButton = cardElement.querySelector(".elements__like-button");
 
+        cardSection.addItem(cardElement);
+      }
+    }, cardsContainerSelector);
 
-      cardSection.addItem(cardElement);
-  }}, cardsContainerSelector);
+    cardSection.renderItems();
 
-  cardSection.renderItems();
+    userInfo.setUserInfo(userData);
+    userInfo.setUserAvatar(userData);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 
+//Слушатели
 
+profileEditButtonOpen.addEventListener('click', () => {
+  nameInput.value = userInfo.getUserInfo().name;
+  jobInput.value = userInfo.getUserInfo().about;
+  popupFormProfile.open();
+  inactiveSubmitButtonState(profileEditSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 })
-.catch((err) => {
-  console.log(err);
-})
+
+
+profileAvatarContainer.addEventListener('click', () => {
+  editAvatarLinkImput.value = '';
+  popupFormAvatar.open();
+  resetInputErrors(editAvatarForm);
+  inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+});
