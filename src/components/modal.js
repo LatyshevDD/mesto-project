@@ -5,33 +5,33 @@ import { hasInvalidInput } from "./validate.js";
 import { changeUserInformation, changeUserAvatar } from "./Api.js";
 
 
-export function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', escapeClosePopup);
-  popup.removeEventListener('click', overlayClosePopup);
-}
+// export function closePopup(popup) {
+//   popup.classList.remove('popup_opened');
+//   document.removeEventListener('keydown', escapeClosePopup);
+//   popup.removeEventListener('click', overlayClosePopup);
+// }
 
-export function escapeClosePopup(evt) {
-  if (evt.key == "Escape") {
-    const openedPopup = document.querySelector('.popup_opened');
-    if (openedPopup) {
-    closePopup(openedPopup);
-    }
-  }
-}
+// export function escapeClosePopup(evt) {
+//   if (evt.key == "Escape") {
+//     const openedPopup = document.querySelector('.popup_opened');
+//     if (openedPopup) {
+//     closePopup(openedPopup);
+//     }
+//   }
+// }
 
-export function overlayClosePopup(evt) {
-  if (evt.target.closest('.popup__container')) {
-    return;
-  }
-  closePopup(evt.target.closest('.popup'));
-}
+// export function overlayClosePopup(evt) {
+//   if (evt.target.closest('.popup__container')) {
+//     return;
+//   }
+//   closePopup(evt.target.closest('.popup'));
+// }
 
-export function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', escapeClosePopup);
-  popup.addEventListener('click', overlayClosePopup);
-}
+// export function openPopup(popup) {
+//   popup.classList.add('popup_opened');
+//   document.addEventListener('keydown', escapeClosePopup);
+//   popup.addEventListener('click', overlayClosePopup);
+// }
 
 export function editFormSubmitHandler (evt) {
   evt.preventDefault();
@@ -94,12 +94,12 @@ export function setCloseButtonPopupListeners() {
   })
 }
 
-export function setLoadingToSubmitButton(button, standartStatus, isLoading) {
-  if(isLoading) {
-    button.value = "Сохранение...";
-  } else {
-    button.value = standartStatus;
-  }
-}
+// export function setLoadingToSubmitButton(button, standartStatus, isLoading) {
+//   if(isLoading) {
+//     button.value = "Сохранение...";
+//   } else {
+//     button.value = standartStatus;
+//   }
+// }
 
 

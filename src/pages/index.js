@@ -11,7 +11,7 @@ import {
   editAvatarLinkImput, editAvatarForm, profileAvatarContainer
 } from '../utils/constants.js';
 
-import { setCloseButtonPopupListeners, openPopup, editFormSubmitHandler, editUserAvatarSubmitHandler } from "../components/modal.js";
+import { setCloseButtonPopupListeners, /*openPopup*/ editFormSubmitHandler, editUserAvatarSubmitHandler } from "../components/modal.js";
 
 import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
 
@@ -44,21 +44,21 @@ Promise.all([
 */
 
 // --------- Close popups  ---------------
-setCloseButtonPopupListeners();
+// setCloseButtonPopupListeners();
 
 // --------- Open popups  ---------------
-export function clearInputsCardValues() {
-  addCardnameInput.value = '';
-  addCardlinkInput.value = '';
-}
+// export function clearInputsCardValues() {
+//   addCardnameInput.value = '';
+//   addCardlinkInput.value = '';
+// }
 
 // Open popup create new card listener
-cardsAddButtonOpen.addEventListener('click', () => {
-  clearInputsCardValues();
-  openPopup(cardsAddCardPopup);
-  resetInputErrors(addCardForm);
-  inactiveSubmitButtonState(cardsAddSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
-});
+// cardsAddButtonOpen.addEventListener('click', () => {
+//   clearInputsCardValues();
+//   openPopup(cardsAddCardPopup);
+//   resetInputErrors(addCardForm);
+//   inactiveSubmitButtonState(cardsAddSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+// });
 
 // Open popup edit Avatar
 // profileAvatarContainer.addEventListener('click', () => {
@@ -107,7 +107,8 @@ import Section from "../components/Section.js";
 import Card from "../components/Card";
 import UserInfo from '../components/UserInfo';
 import PopupWithForm from '../components/PopupWithForm';
-import PopupWithImage from '../components/PopupWithImage'
+import PopupWithImage from '../components/PopupWithImage';
+import { setLoadingToSubmitButton } from "../utils/utils.js";
 
 const newApi = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
@@ -126,6 +127,7 @@ const userInfo = new UserInfo({
 const popupFormProfile = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleSubmitForm: (data) => {
+    setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", true);
     newApi.changeUserInformation(data.name, data.profession)
       .then(res => {
         userInfo.setUserInfo(res)
@@ -134,8 +136,7 @@ const popupFormProfile = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        //maybe some other logic here
-        // Сохранение... выключить
+        setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", false);
       })
   }
 })
@@ -145,6 +146,7 @@ popupFormProfile.setEventListeners();
 const popupFormAvatar = new PopupWithForm({
   popupSelector: '.popup_type_edit-avatar',
   handleSubmitForm: (data) => {
+    setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", true);
     newApi.changeUserAvatar(data.link)
       .then(res => {
         userInfo.setUserAvatar(res)
@@ -153,8 +155,7 @@ const popupFormAvatar = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        //maybe some other logic here
-        // Сохранение... выключить
+        setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", false);
       })
   }
 }
@@ -165,6 +166,7 @@ popupFormAvatar.setEventListeners();
 const popupAddNewCard = new PopupWithForm({
   popupSelector: '.popup_type_add-card',
   handleSubmitForm: (data) => {
+    setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", true);
     newApi.postNewCard(data.title, data.link)
       .then(res => {
         const cardSection = new Section({
@@ -191,8 +193,7 @@ const popupAddNewCard = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        //maybe some other logic here
-        // Сохранение... выключить
+        setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", false);
       })
   }
 });
@@ -259,4 +260,12 @@ profileAvatarContainer.addEventListener('click', () => {
   popupFormAvatar.open();
   resetInputErrors(editAvatarForm);
   inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+});
+
+cardsAddButtonOpen.addEventListener('click', () => {
+  addCardnameInput.value = '';
+  addCardlinkInput.value = '';
+  popupAddNewCard.open();
+  resetInputErrors(addCardForm);
+  inactiveSubmitButtonState(cardsAddSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 });
