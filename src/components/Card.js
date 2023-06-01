@@ -108,10 +108,10 @@ export function addNewCardSubmitHandler(evt) {
 // ========= ООП ===========
 
 export default class Card {
-  constructor({ data, handleButtonClick, likeApiRequest, dislikeApiRequest }, cardTeamplateSelector) {
+  constructor({ data, handleCardClick, likeApiRequest, dislikeApiRequest }, cardTeamplateSelector) {
     this._data = data;
     this._cardTeamplateSelector = cardTeamplateSelector;
-    this._handleButtonClick = handleButtonClick;
+    this._handleCardClick = handleCardClick;
     this._likeApiRequest = likeApiRequest;
     this._dislikeApiRequest = dislikeApiRequest;
   }
@@ -156,9 +156,13 @@ export default class Card {
   }
 
 
-  _setEventListeners(likeButton, obj, userId) {
+  _setEventListeners(likeButton, image, obj, userId) {
     likeButton.addEventListener("click", () => {
       this._likeCardSubmitHandler(likeButton, obj, userId);
+    })
+
+    image.addEventListener("click", () => {
+      this._handleCardClick(this._data.name, this._data.link);
     })
 
   }
@@ -176,6 +180,7 @@ export default class Card {
     const cardDeleteButton = this._element.querySelector('.elements__close-button');
     const cardLikeButton = this._element.querySelector('.elements__like-button');
     const cardLikeCounter = this._element.querySelector('.elements__like-counter');
+    const cardImage = this._element.querySelector('.elements__image');
 
     this._element.querySelector('.elements__image').src = this._data.link;
     this._element.querySelector('.elements__image').alt = this._data.name;
@@ -195,8 +200,9 @@ export default class Card {
     cardLikeCounter.textContent = this._data.likes.length;
 
     // Навешиваем слушатели
-    this._setEventListeners(cardLikeButton, this._data, userId);
+    this._setEventListeners(cardLikeButton, cardImage, this._data, userId);
 
     return this._element;
   }
+
 }

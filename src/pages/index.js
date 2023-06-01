@@ -5,7 +5,7 @@ import '../index.css';
 
 import {
   profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
-  capture, popupCapture, captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
+  capture, /*popupCapture,*/ captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
   profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
   profileEditForm, nameInput, jobInput, /*profileName, profileProfession,*/ captureCloseButton, toggleButtonState, createCapture, /*profileAvatar,*/ editAvatarPopup, editAvatarSubmitButton,
   editAvatarLinkImput, editAvatarForm, profileAvatarContainer
@@ -107,6 +107,7 @@ import Section from "../components/Section.js";
 import Card from "../components/Card";
 import UserInfo from '../components/UserInfo';
 import PopupWithForm from '../components/PopupWithForm';
+import PopupWithImage from '../components/PopupWithImage'
 
 const newApi = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
@@ -161,6 +162,14 @@ const popupFormAvatar = new PopupWithForm({
 
 popupFormAvatar.setEventListeners();
 
+const popupCapture = new PopupWithImage({
+  popupSelector: '.popup_type_capture',
+  imageSelector: '.popup__capture-image',
+  captionSelector: '.popup__capture-title'
+})
+
+popupCapture.setEventListeners();
+
 Promise.all([
   newApi.getUserInformation(),
   newApi.getInitialCards()
@@ -175,7 +184,9 @@ Promise.all([
       renderer: (item) => {
         const newCard = new Card({
           data: item,
-          handleButtonClick: () => { },
+          handleCardClick: () => {
+            popupCapture.open(item)
+          },
           likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
           dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) }
         }, cardTeamplateSelector);
