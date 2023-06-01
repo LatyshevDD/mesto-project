@@ -79,7 +79,7 @@ cardsAddButtonOpen.addEventListener('click', () => {
 
 // ------------ Cards  --------------
 // Add new card
-addCardForm.addEventListener('submit', addNewCardSubmitHandler);
+// addCardForm.addEventListener('submit', addNewCardSubmitHandler);
 
 
 
@@ -162,6 +162,44 @@ const popupFormAvatar = new PopupWithForm({
 
 popupFormAvatar.setEventListeners();
 
+const popupAddNewCard = new PopupWithForm({
+  popupSelector: '.popup_type_add-card',
+  handleSubmitForm: (data) => {
+    newApi.postNewCard(data.title, data.link)
+      .then(res => {
+        const cardSection = new Section({
+          items: [res],
+          renderer: (item) => {
+            const newCard = new Card({
+              data: item,
+              handleCardClick: () => {
+                popupCapture.open(item)
+              },
+              likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
+              dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) },
+              deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) }
+            }, cardTeamplateSelector);
+            const cardElement = newCard.generateCard(item.owner._id);
+
+            cardSection.addItem(cardElement);
+          }
+        }, cardsContainerSelector);
+
+        cardSection.renderItems();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(_ => {
+        //maybe some other logic here
+        // Сохранение... выключить
+      })
+  }
+});
+
+popupAddNewCard.setEventListeners();
+
+
 const popupCapture = new PopupWithImage({
   popupSelector: '.popup_type_capture',
   imageSelector: '.popup__capture-image',
@@ -188,10 +226,10 @@ Promise.all([
             popupCapture.open(item)
           },
           likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
-          dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) }
+          dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) },
+          deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) }
         }, cardTeamplateSelector);
         const cardElement = newCard.generateCard(userData._id);
-        const likeButton = cardElement.querySelector(".elements__like-button");
 
         cardSection.addItem(cardElement);
       }
@@ -206,7 +244,7 @@ Promise.all([
     console.log(err);
   })
 
-//Слушатели
+  //Слушатели
 
 profileEditButtonOpen.addEventListener('click', () => {
   nameInput.value = userInfo.getUserInfo().name;
