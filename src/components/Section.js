@@ -5,8 +5,9 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  addItem(element) {
-    this._container.append(element);
+  addItem(element, isNewCard) {
+    isNewCard = isNewCard || false;
+    isNewCard ? this._container.prepend(element) : this._container.append(element);
   }
 
   renderItems() {

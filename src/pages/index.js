@@ -183,7 +183,9 @@ const popupAddNewCard = new PopupWithForm({
             }, cardTeamplateSelector);
             const cardElement = newCard.generateCard(item.owner._id);
 
-            cardSection.addItem(cardElement);
+            console.log('cardElement: ', cardElement)
+
+            cardSection.addItem(cardElement, true);
           }
         }, cardsContainerSelector);
 
@@ -245,7 +247,7 @@ Promise.all([
     console.log(err);
   })
 
-  //Слушатели
+//Слушатели
 
 profileEditButtonOpen.addEventListener('click', () => {
   nameInput.value = userInfo.getUserInfo().name;
