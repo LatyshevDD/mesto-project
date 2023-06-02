@@ -1,22 +1,21 @@
 //--------- Imports  ---------------
-import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from '../components/Api';
+//import { getUserInformation, getInitialCards, postNewCard, changeUserInformation, likeCardToServer, getResponseData } from '../components/Api';
 
-import '../index.css';
 
-import {
-  profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
-  capture, /*popupCapture,*/ captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
-  profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
-  profileEditForm, nameInput, jobInput, /*profileName, profileProfession,*/ captureCloseButton, toggleButtonState, createCapture, /*profileAvatar,*/ editAvatarPopup, editAvatarSubmitButton,
-  editAvatarLinkImput, editAvatarForm, profileAvatarContainer
-} from '../utils/constants.js';
 
-import { setCloseButtonPopupListeners, /*openPopup*/ editFormSubmitHandler, editUserAvatarSubmitHandler } from "../components/modal.js";
+// import {
+//   profileEditSubmitButton, closePopup, escapeClosePopup, overlayClosePopup, cardsAddSubmitButton, captureImage,
+//   capture, /*popupCapture,*/ captureTitle, cardsAddCardPopup, cardsAddButtonOpen, cardsAddButtonClose, profileSection,
+//   profileEditButtonOpen, profileEditPopup, profileEditButtonClose, addCardForm, addCardnameInput, addCardlinkInput,
+//   /*profileEditForm,*/ nameInput, jobInput, /*profileName, profileProfession,*/ captureCloseButton, toggleButtonState, createCapture, /*profileAvatar,*/ editAvatarPopup, editAvatarSubmitButton,
+//   editAvatarLinkInput, editAvatarForm, profileAvatarContainer
+// } from '../utils/constants.js';
 
-import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
+//import { setCloseButtonPopupListeners, /*openPopup*/ editFormSubmitHandler, editUserAvatarSubmitHandler } from "../components/modal.js";
 
-import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from '../components/validate.js';
+//import { cardsSection, cardsContainer, likeCardSubmitHandler, deleteCard, createCard, addNewCardSubmitHandler, disableDeleteCardButton } from '../components/Card.js';
 
+//import { hideInputError, checkInputValidity, setEventListeners, enableValidation, hasInvalidInput, inactiveSubmitButtonState, resetInputErrors } from '../components/validate.js';
 
 
 // Инициализация проекта
@@ -62,7 +61,7 @@ Promise.all([
 
 // Open popup edit Avatar
 // profileAvatarContainer.addEventListener('click', () => {
-//   editAvatarLinkImput.value = '';
+//   editAvatarLinkInput.value = '';
 //   openPopup(editAvatarPopup);
 //   resetInputErrors(editAvatarForm);
 //   inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
@@ -88,27 +87,57 @@ Promise.all([
 //editAvatarForm.addEventListener('submit', editUserAvatarSubmitHandler);
 
 // --------- Form validation -------------
-enableValidation({
-  formSelector: '.form',
-  inputSelector: '.form__input-text',
-  submitButtonSelector: '.form__input-submit',
-  inactiveButtonClass: 'form__input-submit_disabled',
-  inputErrorClass: 'form__input-text_type_error',
-  errorClass: 'form__input-error_active'
-});
+// enableValidation({
+//   formSelector: '.form',
+//   inputSelector: '.form__input-text',
+//   submitButtonSelector: '.form__input-submit',
+//   inactiveButtonClass: 'form__input-submit_disabled',
+//   inputErrorClass: 'form__input-text_type_error',
+//   errorClass: 'form__input-error_active'
+// });
 
 
 // ======= ООП ========
 
+import '../index.css';
 
-import { cardsContainerSelector, cardTeamplateSelector, profileName, profileProfession, profileAvatar } from "../utils/constants.js";
+import {
+  cardsContainerSelector,
+  cardTeamplateSelector,
+  profileName,
+  profileProfession,
+  profileAvatar,
+  config,
+  profileEditForm,
+  editAvatarForm,
+  addCardForm,
+  profileEditButtonOpen,
+  profileAvatarContainer,
+  cardsAddButtonOpen,
+  nameInput,
+  jobInput,
+  editAvatarLinkInput,
+  addCardnameInput,
+  addCardlinkInput,
+  editAvatarSubmitButton,
+  profileEditSubmitButton,
+  cardsAddSubmitButton
+} from "../utils/constants.js";
+
 import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card";
 import UserInfo from '../components/UserInfo';
 import PopupWithForm from '../components/PopupWithForm';
 import PopupWithImage from '../components/PopupWithImage';
-import { setLoadingToSubmitButton } from "../utils/utils.js";
+
+import {
+  setLoadingToSubmitButton,
+  resetInputErrors,
+  inactiveSubmitButtonState
+} from "../utils/utils.js";
+
+import FormValidator from '../components/FormValidator';
 
 const newApi = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
@@ -183,8 +212,6 @@ const popupAddNewCard = new PopupWithForm({
             }, cardTeamplateSelector);
             const cardElement = newCard.generateCard(item.owner._id);
 
-            console.log('cardElement: ', cardElement)
-
             cardSection.addItem(cardElement, true);
           }
         }, cardsContainerSelector);
@@ -202,7 +229,6 @@ const popupAddNewCard = new PopupWithForm({
 
 popupAddNewCard.setEventListeners();
 
-
 const popupCapture = new PopupWithImage({
   popupSelector: '.popup_type_capture',
   imageSelector: '.popup__capture-image',
@@ -210,6 +236,15 @@ const popupCapture = new PopupWithImage({
 })
 
 popupCapture.setEventListeners();
+
+const profileFormValidation = new FormValidator(config, profileEditForm);
+profileFormValidation.enableValidation();
+
+const avatarFormValidation = new FormValidator(config, editAvatarForm);
+avatarFormValidation.enableValidation();
+
+const addCardFormValidation = new FormValidator(config, addCardForm)
+addCardFormValidation.enableValidation();
 
 Promise.all([
   newApi.getUserInformation(),
@@ -256,9 +291,8 @@ profileEditButtonOpen.addEventListener('click', () => {
   inactiveSubmitButtonState(profileEditSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 })
 
-
 profileAvatarContainer.addEventListener('click', () => {
-  editAvatarLinkImput.value = '';
+  editAvatarLinkInput.value = '';
   popupFormAvatar.open();
   resetInputErrors(editAvatarForm);
   inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });

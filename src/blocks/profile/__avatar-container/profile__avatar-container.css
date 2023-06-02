@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .profile__avatar-container::after {
@@ -19,10 +20,10 @@
   z-index: 0;
 }
 
-.profile__avatar-container:hover::after{
+.profile__avatar-container:hover::after {
   display: block;
 }
 
-.profile__avatar-container:hover .profile__avatar-edit-button{
+.profile__avatar-container:hover .profile__avatar-edit-button {
   display: block;
 }
