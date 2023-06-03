@@ -257,10 +257,10 @@ Promise.all([
           handleCardClick: () => {
             popupCapture.open(item)
           },
-          likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
-          dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) },
-          deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) },
-          getCardInformApiRequest: () => { return newApi.getInitialCards() }
+          likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
+          dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
+          deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
+          getCardInformApiRequest: () => { return api.getInitialCards() }
         }, cardTeamplateSelector);
         const cardElement = newCard.generateCard(userData._id);
 
