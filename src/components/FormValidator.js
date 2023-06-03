@@ -52,16 +52,6 @@ export default class FormValidator {
 
   enableValidation() {
     this._setEventListeners();
-
-    //todo Денис, надо это? Я не понял для чего.
-
-    // Дополнительная проверка валидации при открытии формы редактирования профиля
-    // profileEditButtonOpen.addEventListener('click', function () {
-    //   const inputList = Array.from(profileEditForm.querySelectorAll(config.inputSelector));
-    //   for (let i = 0; i < inputList.length; i++) {
-    //     this._checkInputValidity(profileEditForm, inputList[i], config);
-    //   }
-    // });
   }
 
   _hasInvalidInput(inputList) {

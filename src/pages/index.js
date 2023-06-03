@@ -289,6 +289,12 @@ profileEditButtonOpen.addEventListener('click', () => {
   jobInput.value = userInfo.getUserInfo().about;
   popupFormProfile.open();
   inactiveSubmitButtonState(profileEditSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
+
+  const inputList = Array.from(profileEditForm.querySelectorAll(config.inputSelector));
+  inputList.forEach(item => {
+    profileFormValidation._checkInputValidity(item);
+  })
+
 })
 
 profileAvatarContainer.addEventListener('click', () => {

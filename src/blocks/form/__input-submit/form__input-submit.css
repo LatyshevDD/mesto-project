@@ -13,8 +13,7 @@
 }
 
 .form__input-submit:hover {
-  /* background-color: rgba(0, 0, 0, .8); */
-  cursor: default;
+  background-color: rgba(0, 0, 0, .8);
 }
 
 @media screen and (max-width: 640px) {
