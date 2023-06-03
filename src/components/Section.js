@@ -5,9 +5,18 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  addItem(element, isNewCard) {
-    isNewCard = isNewCard || false;
-    isNewCard ? this._container.prepend(element) : this._container.append(element);
+  addItem(element, position) {
+
+    switch (position) {
+      case 'prepend':
+        this._container.prepend(element)
+        break;
+      case 'append':
+        this._container.append(element);
+        break;
+      default:
+        console.error('Не валидное значение для параметра position')
+    }
   }
 
   renderItems() {

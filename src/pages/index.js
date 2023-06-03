@@ -124,7 +124,7 @@ import {
   cardsAddSubmitButton
 } from "../utils/constants.js";
 
-import Api from "../components/Api.js";
+//import Api from "../components/Api.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card";
 import UserInfo from '../components/UserInfo';
@@ -139,13 +139,7 @@ import {
 
 import FormValidator from '../components/FormValidator';
 
-const newApi = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/plus-cohort-24',
-  headers: {
-    authorization: '902e7d86-3306-44b1-a025-c502f89e3c4a',
-    'Content-Type': 'application/json'
-  }
-});
+import { api } from '../components/Api'
 
 const userInfo = new UserInfo({
   userNameEl: profileName,
@@ -157,7 +151,7 @@ const popupFormProfile = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleSubmitForm: (data) => {
     setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", true);
-    newApi.changeUserInformation(data.name, data.profession)
+    api.changeUserInformation(data.name, data.profession)
       .then(res => {
         userInfo.setUserInfo(res)
       })
@@ -176,7 +170,7 @@ const popupFormAvatar = new PopupWithForm({
   popupSelector: '.popup_type_edit-avatar',
   handleSubmitForm: (data) => {
     setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", true);
-    newApi.changeUserAvatar(data.link)
+    api.changeUserAvatar(data.link)
       .then(res => {
         userInfo.setUserAvatar(res)
       })
@@ -196,7 +190,7 @@ const popupAddNewCard = new PopupWithForm({
   popupSelector: '.popup_type_add-card',
   handleSubmitForm: (data) => {
     setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", true);
-    newApi.postNewCard(data.title, data.link)
+    api.postNewCard(data.title, data.link)
       .then(res => {
         const cardSection = new Section({
           items: [res],
@@ -206,13 +200,13 @@ const popupAddNewCard = new PopupWithForm({
               handleCardClick: () => {
                 popupCapture.open(item)
               },
-              likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
-              dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) },
-              deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) }
+              likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
+              dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
+              deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) }
             }, cardTeamplateSelector);
             const cardElement = newCard.generateCard(item.owner._id);
 
-            cardSection.addItem(cardElement, true);
+            cardSection.addItem(cardElement, 'prepend');
           }
         }, cardsContainerSelector);
 
@@ -247,8 +241,8 @@ const addCardFormValidation = new FormValidator(config, addCardForm)
 addCardFormValidation.enableValidation();
 
 Promise.all([
-  newApi.getUserInformation(),
-  newApi.getInitialCards()
+  api.getUserInformation(),
+  api.getInitialCards()
 ])
   .then((values) => {
     let userData = values[0];
@@ -270,7 +264,7 @@ Promise.all([
         }, cardTeamplateSelector);
         const cardElement = newCard.generateCard(userData._id);
 
-        cardSection.addItem(cardElement);
+        cardSection.addItem(cardElement, 'append');
       }
     }, cardsContainerSelector);
 
