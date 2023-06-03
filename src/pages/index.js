@@ -265,7 +265,8 @@ Promise.all([
           },
           likeApiRequest: (cardId) => { return newApi.likeCardToServer(cardId) },
           dislikeApiRequest: (cardId) => { return newApi.disLikeCardFromServer(cardId) },
-          deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) }
+          deleteCardApiRequest: (cardId) => { return newApi.deleteCardFromServer(cardId) },
+          getCardInformApiRequest: () => { return newApi.getInitialCards() }
         }, cardTeamplateSelector);
         const cardElement = newCard.generateCard(userData._id);
 

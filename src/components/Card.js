@@ -108,13 +108,14 @@ import { getInitialCards, deleteCardFromServer, getUserInformation, postNewCard,
 // ========= ООП ===========
 
 export default class Card {
-  constructor({ data, handleCardClick, likeApiRequest, dislikeApiRequest, deleteCardApiRequest }, cardTeamplateSelector) {
+  constructor({ data, handleCardClick, likeApiRequest, dislikeApiRequest, deleteCardApiRequest, getCardInformApiRequest }, cardTeamplateSelector) {
     this._data = data;
     this._cardTeamplateSelector = cardTeamplateSelector;
     this._handleCardClick = handleCardClick;
     this._likeApiRequest = likeApiRequest;
     this._dislikeApiRequest = dislikeApiRequest;
     this._deleteCardApiRequest = deleteCardApiRequest;
+    this._getCardInformApiRequest = getCardInformApiRequest;
   }
 
   _getElement() {
@@ -128,32 +129,41 @@ export default class Card {
   }
 
   _likeCardSubmitHandler(likeButton, obj, userId) {
-    const cardObject = obj;
-    const cardObjectLikes = cardObject.likes;
-
-    //Закрашиваем лайк и отправляем на сервер
-    if (!cardObjectLikes.some(item => {
-      return item._id == userId;
-    })) {
-      this._likeApiRequest(cardObject._id)
-        .then((cardInfo) => {
-          likeButton.classList.add('elements__like-button_active');
-          likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
-        })
-        .catch((err) => {
-          console.log(err);
+    this._getCardInformApiRequest()
+      .then(cardsInformation => {
+        const cardObject= cardsInformation.find(card => {
+          return card._id == obj._id;
         });
+        const cardObjectLikes = cardObject.likes;
 
-    } else {
-      this._dislikeApiRequest(cardObject._id)
-        .then((cardInfo) => {
-          likeButton.classList.remove('elements__like-button_active');
-          likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+        //Закрашиваем лайк и отправляем на сервер
+        if (!cardObjectLikes.some(item => {
+         return item._id == userId;
+        }))
+          {
+          this._likeApiRequest(cardObject._id)
+            .then((cardInfo) => {
+              likeButton.classList.add('elements__like-button_active');
+              likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          } else {
+          this._dislikeApiRequest(cardObject._id)
+            .then((cardInfo) => {
+              likeButton.classList.remove('elements__like-button_active');
+              likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+            })
+            .catch((err) => {
+            console.log(err);
+            });
+          }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   _deleteCard(cardObject) {
