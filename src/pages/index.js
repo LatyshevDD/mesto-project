@@ -183,27 +183,19 @@ Promise.all([
 profileEditButtonOpen.addEventListener('click', () => {
   nameInput.value = userInfo.getUserInfo().name;
   jobInput.value = userInfo.getUserInfo().about;
+  profileFormValidation.resetValidation();
   popupFormProfile.open();
-  inactiveSubmitButtonState(profileEditSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
-
-  const inputList = Array.from(profileEditForm.querySelectorAll(config.inputSelector));
-  inputList.forEach(item => {
-    profileFormValidation._checkInputValidity(item);
-  })
-
 })
 
 profileAvatarContainer.addEventListener('click', () => {
   editAvatarLinkInput.value = '';
+  avatarFormValidation.resetValidation();
   popupFormAvatar.open();
-  resetInputErrors(editAvatarForm);
-  inactiveSubmitButtonState(editAvatarSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 });
 
 cardsAddButtonOpen.addEventListener('click', () => {
   addCardnameInput.value = '';
   addCardlinkInput.value = '';
+  addCardFormValidation.resetValidation();
   popupAddNewCard.open();
-  resetInputErrors(addCardForm);
-  inactiveSubmitButtonState(cardsAddSubmitButton, { inactiveButtonClass: 'form__input-submit_disabled' });
 });
