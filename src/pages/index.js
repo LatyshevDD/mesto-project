@@ -102,7 +102,8 @@ const popupAddNewCard = new PopupWithForm({
               },
               likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
               dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
-              deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) }
+              deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
+              getCardInformApiRequest: () => { return api.getInitialCards() }
             }, cardTeamplateSelector);
             const cardElement = newCard.generateCard(item.owner._id);
 
