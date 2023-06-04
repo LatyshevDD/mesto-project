@@ -19,33 +19,33 @@ export default class Card {
     return cardElement;
   }
 
-  _likeCardSubmitHandler(likeButton, obj, userId) {
+  _likeCardSubmitHandler() {
     this._getCardInformApiRequest()
       .then(cardsInformation => {
-        const cardObject= cardsInformation.find(card => {
-          return card._id == obj._id;
+        this._cardObject= cardsInformation.find(card => {
+          return card._id == this._data._id;
         });
-        const cardObjectLikes = cardObject.likes;
+         this._cardObjectLikes = this._cardObject.likes;
 
         //Закрашиваем лайк и отправляем на сервер
-        if (!cardObjectLikes.some(item => {
-         return item._id == userId;
+        if (!this._cardObjectLikes.some(item => {
+         return item._id == this._userId;
         }))
           {
-          this._likeApiRequest(cardObject._id)
+          this._likeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
-              likeButton.classList.add('elements__like-button_active');
-              likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+              this._cardLikeButton.classList.add('elements__like-button_active');
+              this._cardLikeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
             })
             .catch((err) => {
               console.log(err);
             });
 
           } else {
-          this._dislikeApiRequest(cardObject._id)
+          this._dislikeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
-              likeButton.classList.remove('elements__like-button_active');
-              likeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+              this._cardLikeButton.classList.remove('elements__like-button_active');
+              this._cardLikeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
             })
             .catch((err) => {
             console.log(err);
@@ -57,8 +57,8 @@ export default class Card {
       });
   }
 
-  _deleteCard(cardObject) {
-    this._deleteCardApiRequest(cardObject._id)
+  _deleteCard() {
+    this._deleteCardApiRequest(this._data._id)
       .then(() => {
         this._element.remove();
       })
@@ -67,55 +67,55 @@ export default class Card {
       });
   }
 
-  _setEventListeners(likeButton, image, deleteButton, obj, userId) {
-    likeButton.addEventListener("click", () => {
-      this._likeCardSubmitHandler(likeButton, obj, userId);
+  _setEventListeners() {
+    this._cardLikeButton.addEventListener("click", () => {
+      this._likeCardSubmitHandler();
     })
 
-    image.addEventListener("click", () => {
+    this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._data.name, this._data.link);
     })
 
-    deleteButton.addEventListener("click", () => {
-      this._deleteCard(obj);
+    this._cardDeleteButton.addEventListener("click", () => {
+      this._deleteCard();
     })
 
   }
 
-  _disableDeleteCardButton(userId, cardOwnerId, button) {
-    if (userId != cardOwnerId) {
-      button.classList.add('elements__close-button_disabled');
+  _disableDeleteCardButton() {
+    if (this._userId != this._cardOwnerId) {
+      this._cardDeleteButton.classList.add('elements__close-button_disabled');
     }
   }
 
   generateCard(userId) {
     this._element = this._getElement();
+    this._cardLikeButton = this._element.querySelector('.elements__like-button');
+    this._cardImage = this._element.querySelector('.elements__image');
+    this._cardDeleteButton = this._element.querySelector('.elements__close-button');
+    this._cardOwnerId = this._data.owner._id;
+    this._cardLikeCounter = this._element.querySelector('.elements__like-counter');
+    this._userId = userId;
 
-    const cardOwnerId = this._data.owner._id;
-    const cardDeleteButton = this._element.querySelector('.elements__close-button');
-    const cardLikeButton = this._element.querySelector('.elements__like-button');
-    const cardLikeCounter = this._element.querySelector('.elements__like-counter');
-    const cardImage = this._element.querySelector('.elements__image');
-
-    this._element.querySelector('.elements__image').src = this._data.link;
-    this._element.querySelector('.elements__image').alt = this._data.name;
+    this._cardImage.src = this._data.link;
+    this._cardImage.alt = this._data.name;
     this._element.querySelector('.elements__title').textContent = this._data.name;
 
     // Удаляем кнопку удаления карточки у чужих карточек
-    this._disableDeleteCardButton(userId, cardOwnerId, cardDeleteButton);
+    this._disableDeleteCardButton();
 
     // Закрашиваем свои лайки
     if (this._data.likes.some(item => {
-      return item._id == userId;
+      return item._id == this._userId;
     })) {
-      cardLikeButton.classList.add('elements__like-button_active');
+      this._cardLikeButton.classList.add('elements__like-button_active');
     }
 
     // Устанавливаем количество лайков
-    cardLikeCounter.textContent = this._data.likes.length;
+    this._cardLikeCounter.textContent = this._data.likes.length;
 
     // Навешиваем слушатели
-    this._setEventListeners(cardLikeButton, cardImage, cardDeleteButton, this._data, userId);
+    this._setEventListeners();
 
     return this._element;
   }
