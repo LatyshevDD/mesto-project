@@ -50,7 +50,7 @@ const userInfo = new UserInfo({
 const popupFormProfile = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleSubmitForm: (data) => {
-    setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", true);
+    popupFormProfile.renderLoading(true);
     api.changeUserInformation(data.name, data.profession)
       .then(res => {
         userInfo.setUserInfo(res)
@@ -59,7 +59,7 @@ const popupFormProfile = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        setLoadingToSubmitButton(profileEditSubmitButton, "Сохранить", false);
+        popupFormProfile.renderLoading(false);
       })
   }
 })
@@ -69,7 +69,7 @@ popupFormProfile.setEventListeners();
 const popupFormAvatar = new PopupWithForm({
   popupSelector: '.popup_type_edit-avatar',
   handleSubmitForm: (data) => {
-    setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", true);
+    popupFormAvatar.renderLoading(true);
     api.changeUserAvatar(data.link)
       .then(res => {
         userInfo.setUserAvatar(res)
@@ -78,7 +78,7 @@ const popupFormAvatar = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        setLoadingToSubmitButton(editAvatarSubmitButton, "Сохранить", false);
+        popupFormAvatar.renderLoading(false);
       })
   }
 }
@@ -89,7 +89,7 @@ popupFormAvatar.setEventListeners();
 const popupAddNewCard = new PopupWithForm({
   popupSelector: '.popup_type_add-card',
   handleSubmitForm: (data) => {
-    setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", true);
+    popupAddNewCard.renderLoading(true);
     api.postNewCard(data.title, data.link)
       .then(res => {
         const cardSection = new Section({
@@ -117,7 +117,7 @@ const popupAddNewCard = new PopupWithForm({
         console.log(err);
       })
       .finally(_ => {
-        setLoadingToSubmitButton(cardsAddSubmitButton, "Создать", false);
+        popupAddNewCard.renderLoading(false);
       })
   }
 });
