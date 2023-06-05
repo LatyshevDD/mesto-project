@@ -34,7 +34,8 @@ import PopupWithImage from '../components/PopupWithImage';
 import {
   setLoadingToSubmitButton,
   resetInputErrors,
-  inactiveSubmitButtonState
+  inactiveSubmitButtonState,
+  handleSubmit
 } from "../utils/utils.js";
 
 import FormValidator from '../components/FormValidator';
@@ -50,17 +51,12 @@ const userInfo = new UserInfo({
 const popupFormProfile = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleSubmitForm: (data) => {
-    popupFormProfile.renderLoading(true);
-    api.changeUserInformation(data.name, data.profession)
-      .then(res => {
-        userInfo.setUserInfo(res)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(_ => {
-        popupFormProfile.renderLoading(false);
-      })
+      function makeRequest() {
+        return api.changeUserInformation(data.name, data.profession).then((userData) => {
+        userInfo.setUserInfo(userData)
+        });
+      }
+      handleSubmit(makeRequest, popupFormProfile);
   }
 })
 
@@ -69,17 +65,12 @@ popupFormProfile.setEventListeners();
 const popupFormAvatar = new PopupWithForm({
   popupSelector: '.popup_type_edit-avatar',
   handleSubmitForm: (data) => {
-    popupFormAvatar.renderLoading(true);
-    api.changeUserAvatar(data.link)
-      .then(res => {
-        userInfo.setUserAvatar(res)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(_ => {
-        popupFormAvatar.renderLoading(false);
-      })
+    function makeRequest() {
+      return api.changeUserAvatar(data.link).then((res) => {
+      userInfo.setUserAvatar(res)
+      });
+    }
+    handleSubmit(makeRequest, popupFormAvatar);
   }
 }
 )
