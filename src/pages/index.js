@@ -95,7 +95,7 @@ function createCard(cardData) {
     userId: userId,
   }, cardTeamplateSelector);
 
-  return newCard.generateCard(userId);
+  return newCard.generateCard();
 }
 
 let cardSection = {};
