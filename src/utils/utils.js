@@ -1,3 +1,7 @@
+import {api} from "../components/Api.js";
+
+import Card from "../components/Card.js";
+
 export function setLoadingToSubmitButton(button, standartStatus, isLoading) {
   if (isLoading) {
     button.value = "Сохранение...";
@@ -34,6 +38,21 @@ export function handleSubmit(request, popupInstance) {
     .finally(() => {
       popupInstance.renderLoading(false);
     });
+}
+
+export function createCard(cardData, popupCaptureInstance, cardSectionInstance, userData, cardTeamplateSelector, insertOption) {
+  const newCard = new Card({
+    data: cardData,
+    handleCardClick: () => {
+      popupCaptureInstance.open(item)
+    },
+    likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
+    dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
+    deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
+    getCardInformApiRequest: () => { return api.getInitialCards() }
+    }, cardTeamplateSelector);
+    const cardElement = newCard.generateCard(userData);
+    cardSectionInstance.addItem(cardElement, insertOption);
 }
 
 

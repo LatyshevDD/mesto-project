@@ -35,7 +35,7 @@ export default class Card {
           this._likeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
               this._cardLikeButton.classList.add('elements__like-button_active');
-              this._cardLikeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+              this._cardLikeCounter.textContent = cardInfo.likes.length;
             })
             .catch((err) => {
               console.log(err);
@@ -45,7 +45,7 @@ export default class Card {
           this._dislikeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
               this._cardLikeButton.classList.remove('elements__like-button_active');
-              this._cardLikeButton.closest('.elements__card').querySelector('.elements__like-counter').textContent = cardInfo.likes.length;
+              this._cardLikeCounter.textContent = cardInfo.likes.length;
             })
             .catch((err) => {
             console.log(err);
@@ -98,7 +98,7 @@ export default class Card {
     this._userId = userId;
 
     this._cardImage.src = this._data.link;
-    this._cardImage.alt = this._data.name;
+    this._cardImage.alt = `Картинка карточки - ${this._data.link}`;
     this._element.querySelector('.elements__title').textContent = this._data.name;
 
     // Удаляем кнопку удаления карточки у чужих карточек
