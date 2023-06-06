@@ -13,30 +13,17 @@ import {
   addCardForm,
   profileEditButtonOpen,
   profileAvatarContainer,
-  cardsAddButtonOpen,
-  nameInput,
-  jobInput,
-  editAvatarLinkInput,
-  addCardnameInput,
-  addCardlinkInput,
-  editAvatarSubmitButton,
-  profileEditSubmitButton,
-  cardsAddSubmitButton
+  cardsAddButtonOpen
 } from "../utils/constants.js";
 
-//import Api from "../components/Api.js";
 import Section from "../components/Section.js";
-import Card from "../components/Card";
 import UserInfo from '../components/UserInfo';
 import PopupWithForm from '../components/PopupWithForm';
 import PopupWithImage from '../components/PopupWithImage';
+import Card from '../components/Card';
 
 import {
-  setLoadingToSubmitButton,
-  resetInputErrors,
-  inactiveSubmitButtonState,
   handleSubmit,
-  createCard
 } from "../utils/utils.js";
 
 import FormValidator from '../components/FormValidator';
@@ -52,12 +39,12 @@ const userInfo = new UserInfo({
 const popupFormProfile = new PopupWithForm({
   popupSelector: '.popup_type_edit-profile',
   handleSubmitForm: (data) => {
-      function makeRequest() {
-        return api.changeUserInformation(data.name, data.profession).then((userData) => {
+    function makeRequest() {
+      return api.changeUserInformation(data.name, data.about).then((userData) => {
         userInfo.setUserInfo(userData)
-        });
-      }
-      handleSubmit(makeRequest, popupFormProfile);
+      });
+    }
+    handleSubmit(makeRequest, popupFormProfile);
   }
 })
 
@@ -68,7 +55,7 @@ const popupFormAvatar = new PopupWithForm({
   handleSubmitForm: (data) => {
     function makeRequest() {
       return api.changeUserAvatar(data.link).then((res) => {
-      userInfo.setUserAvatar(res)
+        userInfo.setUserInfo(res)
       });
     }
     handleSubmit(makeRequest, popupFormAvatar);
@@ -95,21 +82,40 @@ avatarFormValidation.enableValidation();
 const addCardFormValidation = new FormValidator(config, addCardForm)
 addCardFormValidation.enableValidation();
 
+function createCard(cardData) {
+  const newCard = new Card({
+    data: cardData,
+    handleCardClick: () => {
+      popupCapture.open({ name: cardData.name, link: cardData.link })
+    },
+    likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
+    dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
+    deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
+    getCardInformApiRequest: () => { return api.getInitialCards() },
+    userId: userId,
+  }, cardTeamplateSelector);
+
+  return newCard.generateCard(userId);
+}
+
 let cardSection = {};
+let userId = null;
 
 Promise.all([
   api.getUserInformation(),
   api.getInitialCards()
 ])
   .then((values) => {
-    let userData = values[0];
-    let cardsData = values[1];
+    const userData = values[0];
+    const cardsData = values[1];
+
+    userId = userData._id;
 
     // Формируем секцию с карточками
-      cardSection = new Section({
+    cardSection = new Section({
       items: cardsData,
       renderer: (item) => {
-        createCard(item, popupCapture, cardSection, userData._id, cardTeamplateSelector, 'append');
+        cardSection.addItem(createCard(item), 'append');
       }
 
     }, cardsContainerSelector);
@@ -117,44 +123,39 @@ Promise.all([
     cardSection.renderItems();
 
     userInfo.setUserInfo(userData);
-    userInfo.setUserAvatar(userData);
   })
   .catch((err) => {
     console.log(err);
   })
 
-  const popupAddNewCard = new PopupWithForm({
-    popupSelector: '.popup_type_add-card',
-    handleSubmitForm: (data) => {
-      function makeRequest() {
-        return api.postNewCard(data.title, data.link).then((res) => {
-          createCard(res, popupCapture, cardSection, res.owner._id, cardTeamplateSelector, "prepend");
-        });
-      }
-      handleSubmit(makeRequest, popupAddNewCard);
+const popupAddNewCard = new PopupWithForm({
+  popupSelector: '.popup_type_add-card',
+  handleSubmitForm: (data) => {
+    function makeRequest() {
+      return api.postNewCard(data.title, data.link).then((res) => {
+        cardSection.addItem(createCard(res), 'prepend');
+      });
     }
-  });
+    handleSubmit(makeRequest, popupAddNewCard);
+  }
+});
 
-  popupAddNewCard.setEventListeners();
+popupAddNewCard.setEventListeners();
 
 //Слушатели
 
 profileEditButtonOpen.addEventListener('click', () => {
-  nameInput.value = userInfo.getUserInfo().name;
-  jobInput.value = userInfo.getUserInfo().about;
   profileFormValidation.resetValidation();
+  popupFormProfile.setInputValues(userInfo.getUserInfo());
   popupFormProfile.open();
 })
 
 profileAvatarContainer.addEventListener('click', () => {
-  editAvatarLinkInput.value = '';
   avatarFormValidation.resetValidation();
   popupFormAvatar.open();
 });
 
 cardsAddButtonOpen.addEventListener('click', () => {
-  addCardnameInput.value = '';
-  addCardlinkInput.value = '';
   addCardFormValidation.resetValidation();
   popupAddNewCard.open();
 });

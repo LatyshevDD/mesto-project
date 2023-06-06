@@ -7,6 +7,8 @@ export default class Section {
 
   addItem(element, position) {
 
+    console.log('addItem element: ', element, '; position: ', position);
+
     switch (position) {
       case 'prepend':
         this._container.prepend(element)

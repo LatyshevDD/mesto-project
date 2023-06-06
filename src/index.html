@@ -1,135 +1,240 @@
 <!DOCTYPE html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mesto</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mesto</title>
-</head>
-
-<body class="body">
-  <div class="page">
-    <header class="header">
-      <img src="<%=require('./images/header__logo.svg')%>" alt="Логотип Mesto" class="header__logo" />
-    </header>
-    <main class="content">
-      <section class="profile">
-        <div class="profile__container">
-          <div class="profile__info">
-            <div class="profile__avatar-container">
-              <img src="<%=require('./images/avatar.jpg')%>" alt="Фотография профиля" class="profile__avatar" />
-              <img src="<%=require('./images/profile__avatar-edit-button.svg')%>" alt="Редактировать фотографию профиля"
-                class="profile__avatar-edit-button" />
+  <body class="body">
+    <div class="page">
+      <header class="header">
+        <img
+          src="<%=require('./images/header__logo.svg')%>"
+          alt="Логотип Mesto"
+          class="header__logo"
+        />
+      </header>
+      <main class="content">
+        <section class="profile">
+          <div class="profile__container">
+            <div class="profile__info">
+              <div class="profile__avatar-container">
+                <img
+                  src="<%=require('./images/avatar.jpg')%>"
+                  alt="Фотография профиля"
+                  class="profile__avatar"
+                />
+                <img
+                  src="<%=require('./images/profile__avatar-edit-button.svg')%>"
+                  alt="Редактировать фотографию профиля"
+                  class="profile__avatar-edit-button"
+                />
+              </div>
+              <div class="profile__text">
+                <h1 class="profile__name">Загрузка...</h1>
+                <button
+                  class="profile__edit-button"
+                  aria-label="Редактировать профиль"
+                  type="button"
+                ></button>
+                <p class="profile__profession">Загрузка...</p>
+              </div>
             </div>
-            <div class="profile__text">
-              <h1 class="profile__name">Загрузка...</h1>
-              <button class="profile__edit-button" aria-label="Редактировать профиль" type="button"></button>
-              <p class="profile__profession">Загрузка...</p>
+            <button
+              class="profile__add-button"
+              aria-label="Добавить информацию в профиль"
+              type="button"
+            ></button>
+          </div>
+          <div class="popup popup_type_edit-profile">
+            <div class="popup__container">
+              <form class="form form__profile" name="edit-profile" novalidate>
+                <h2 class="form__title">Редактировать профиль</h2>
+                <fieldset class="form__input-container">
+                  <input
+                    class="form__input-text form__input-text_type_name"
+                    type="text"
+                    name="name"
+                    id="profile-name"
+                    minlength="2"
+                    maxlength="40"
+                    pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
+                    data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+                    required
+                  />
+                  <span class="form__input-error form__input-error_profile-name"
+                    >Необходимо заполнить данное поле</span
+                  >
+                  <input
+                    class="form__input-text form__input-text_type_profession"
+                    type="text"
+                    name="about"
+                    id="profile-profession"
+                    minlength="2"
+                    maxlength="200"
+                    pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
+                    data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+                    required
+                  />
+                  <span
+                    class="form__input-error form__input-error_profile-profession"
+                    >Необходимо заполнить данное поле</span
+                  >
+                </fieldset>
+                <input
+                  class="form__input-submit"
+                  type="submit"
+                  name="submit"
+                  value="Сохранить"
+                  disabled
+                />
+              </form>
+              <button
+                class="popup__close-button"
+                aria-label="Закрыть окно"
+                type="button"
+              >
+                <img
+                  src="<%=require('./images/close-icon.svg')%>"
+                  alt="Кнопка закрыть окно"
+                  class="popup__close-button-img"
+                />
+              </button>
             </div>
           </div>
-          <button class="profile__add-button" aria-label="Добавить информацию в профиль" type="button"></button>
-        </div>
-        <div class="popup popup_type_edit-profile">
-          <div class="popup__container">
-            <form class="form form__profile" name="edit-profile" novalidate>
-              <h2 class="form__title">Редактировать профиль</h2>
-              <fieldset class="form__input-container">
-                <input class="form__input-text form__input-text_type_name" type="text" name="name" id="profile-name"
-                  minlength="2" maxlength="40" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
-                  data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
-                  required />
-                <span class="form__input-error form__input-error_profile-name">Необходимо заполнить данное поле</span>
-                <input class="form__input-text form__input-text_type_profession" type="text" name="profession"
-                  id="profile-profession" minlength="2" maxlength="200" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
-                  data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
-                  required />
-                <span class="form__input-error form__input-error_profile-profession">Необходимо заполнить данное
-                  поле</span>
-              </fieldset>
-              <input class="form__input-submit" type="submit" name="submit" value="Сохранить" disabled />
-            </form>
-            <button class="popup__close-button" aria-label="Закрыть окно" type="button">
-              <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть окно"
-                class="popup__close-button-img" />
-            </button>
+          <div class="popup popup_type_edit-avatar">
+            <div class="popup__container">
+              <form class="form form__avatar" name="add-card" novalidate>
+                <h2 class="form__title">Обновить аватар</h2>
+                <fieldset class="form__input-container">
+                  <input
+                    class="form__input-text form__input-text_type_image-link"
+                    type="url"
+                    name="link"
+                    id="image-link"
+                    placeholder="Ссылка на картинку"
+                    required
+                  />
+                  <span class="form__input-error form__input-error_image-link"
+                    >Необходимо заполнить данное поле</span
+                  >
+                </fieldset>
+                <input
+                  class="form__input-submit"
+                  type="submit"
+                  name="submit"
+                  value="Сохранить"
+                />
+              </form>
+              <button
+                class="popup__close-button"
+                aria-label="Закрыть окно"
+                type="button"
+              >
+                <img
+                  src="<%=require('./images/close-icon.svg')%>"
+                  alt="Кнопка закрыть окно"
+                  class="popup__close-button-img"
+                />
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="popup popup_type_edit-avatar">
-          <div class="popup__container">
-            <form class="form form__avatar" name="add-card" novalidate>
-              <h2 class="form__title">Обновить аватар</h2>
-              <fieldset class="form__input-container">
-                <input class="form__input-text form__input-text_type_image-link" type="url" name="link" id="image-link"
-                  placeholder="Ссылка на картинку" required />
-                <span class="form__input-error form__input-error_image-link">Необходимо заполнить данное поле</span>
-              </fieldset>
-              <input class="form__input-submit" type="submit" name="submit" value="Сохранить" />
-            </form>
-            <button class="popup__close-button" aria-label="Закрыть окно" type="button">
-              <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть окно"
-                class="popup__close-button-img" />
-            </button>
+        </section>
+        <!-- /profile -->
+        <section class="elements">
+          <ul class="elements__cards"></ul>
+          <div class="popup popup_type_capture">
+            <div class="popup__container">
+              <figure class="popup__capture">
+                <img src="" alt="" class="popup__capture-image" />
+                <figcaption class="popup__capture-title"></figcaption>
+              </figure>
+              <button
+                class="popup__close-button"
+                aria-label="Закрыть окно"
+                type="button"
+              >
+                <img
+                  src="<%=require('./images/close-icon.svg')%>"
+                  alt="Кнопка закрыть окно"
+                  class="popup__close-button-img"
+                />
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
-      <!-- /profile -->
-      <section class="elements">
-        <ul class="elements__cards"></ul>
-        <div class="popup popup_type_capture">
-          <div class="popup__container">
-            <figure class="popup__capture">
-              <img src="" alt="" class="popup__capture-image" />
-              <figcaption class="popup__capture-title"></figcaption>
-            </figure>
-            <button class="popup__close-button" aria-label="Закрыть окно" type="button">
-              <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть окно"
-                class="popup__close-button-img" />
-            </button>
+          <div class="popup popup_type_add-card">
+            <div class="popup__container">
+              <form class="form form__add-card" name="add-card" novalidate>
+                <h2 class="form__title">Новое место</h2>
+                <fieldset class="form__input-container">
+                  <input
+                    class="form__input-text form__input-text_type_image-title"
+                    type="text"
+                    name="title"
+                    id="image-title"
+                    placeholder="Название"
+                    minlength="2"
+                    maxlength="30"
+                    pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
+                    data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+                    required
+                  />
+                  <span class="form__input-error form__input-error_image-title"
+                    >Необходимо заполнить данное поле</span
+                  >
+                  <input
+                    class="form__input-text form__input-text_type_image-link"
+                    type="url"
+                    name="link"
+                    id="image-link"
+                    placeholder="Ссылка на картинку"
+                    required
+                  />
+                  <span class="form__input-error form__input-error_image-link"
+                    >Необходимо заполнить данное поле</span
+                  >
+                </fieldset>
+                <input
+                  class="form__input-submit"
+                  type="submit"
+                  name="submit"
+                  value="Создать"
+                />
+              </form>
+              <button
+                class="popup__close-button"
+                aria-label="Закрыть окно"
+                type="button"
+              >
+                <img
+                  src="<%=require('./images/close-icon.svg')%>"
+                  alt="Кнопка закрыть окно"
+                  class="popup__close-button-img"
+                />
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="popup popup_type_add-card">
-          <div class="popup__container">
-            <form class="form form__add-card" name="add-card" novalidate>
-              <h2 class="form__title">Новое место</h2>
-              <fieldset class="form__input-container">
-                <input class="form__input-text form__input-text_type_image-title" type="text" name="title"
-                  id="image-title" placeholder="Название" minlength="2" maxlength="30" pattern="[a-zA-Zа-яА-ЯёЁ\-\s]+"
-                  data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
-                  required />
-                <span class="form__input-error form__input-error_image-title">Необходимо заполнить данное поле</span>
-                <input class="form__input-text form__input-text_type_image-link" type="url" name="link" id="image-link"
-                  placeholder="Ссылка на картинку" required />
-                <span class="form__input-error form__input-error_image-link">Необходимо заполнить данное поле</span>
-              </fieldset>
-              <input class="form__input-submit" type="submit" name="submit" value="Создать" />
-            </form>
-            <button class="popup__close-button" aria-label="Закрыть окно" type="button">
-              <img src="<%=require('./images/close-icon.svg')%>" alt="Кнопка закрыть окно"
-                class="popup__close-button-img" />
-            </button>
+        </section>
+        <!-- elements -->
+      </main>
+      <footer class="footer">
+        <p class="footer__author">&copy; 2023 Латышев Денис</p>
+      </footer>
+    </div>
+    <!--/page -->
+    <template class="cardTemplate">
+      <li class="elements__card">
+        <img src="" alt="" class="elements__image" />
+        <div class="elements__text">
+          <h2 class="elements__title"></h2>
+          <div class="elements__likes-container">
+            <button class="elements__like-button" type="button"></button>
+            <p class="elements__like-counter">0</p>
           </div>
+          <button class="elements__close-button" type="button"></button>
         </div>
-      </section>
-      <!-- elements -->
-    </main>
-    <footer class="footer">
-      <p class="footer__author">&copy; 2023 Латышев Денис</p>
-    </footer>
-  </div>
-  <!--/page -->
-  <template class="cardTemplate">
-    <li class="elements__card">
-      <img src="" alt="" class="elements__image" />
-      <div class="elements__text">
-        <h2 class="elements__title"></h2>
-        <div class="elements__likes-container">
-          <button class="elements__like-button" type="button"></button>
-          <p class="elements__like-counter">0</p>
-        </div>
-        <button class="elements__close-button" type="button"></button>
-      </div>
-    </li>
-  </template>
-</body>
-
+      </li>
+    </template>
+  </body>
 </html>

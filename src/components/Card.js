@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({ data, handleCardClick, likeApiRequest, dislikeApiRequest, deleteCardApiRequest, getCardInformApiRequest }, cardTeamplateSelector) {
+  constructor({ data, handleCardClick, likeApiRequest, dislikeApiRequest, deleteCardApiRequest, getCardInformApiRequest, userId }, cardTeamplateSelector) {
     this._data = data;
     this._cardTeamplateSelector = cardTeamplateSelector;
     this._handleCardClick = handleCardClick;
@@ -7,6 +7,7 @@ export default class Card {
     this._dislikeApiRequest = dislikeApiRequest;
     this._deleteCardApiRequest = deleteCardApiRequest;
     this._getCardInformApiRequest = getCardInformApiRequest;
+    this._userId = userId;
   }
 
   _getElement() {
@@ -22,16 +23,15 @@ export default class Card {
   _likeCardSubmitHandler() {
     this._getCardInformApiRequest()
       .then(cardsInformation => {
-        this._cardObject= cardsInformation.find(card => {
+        this._cardObject = cardsInformation.find(card => {
           return card._id == this._data._id;
         });
-         this._cardObjectLikes = this._cardObject.likes;
+        this._cardObjectLikes = this._cardObject.likes;
 
         //Закрашиваем лайк и отправляем на сервер
         if (!this._cardObjectLikes.some(item => {
-         return item._id == this._userId;
-        }))
-          {
+          return item._id == this._userId;
+        })) {
           this._likeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
               this._cardLikeButton.classList.add('elements__like-button_active');
@@ -41,16 +41,16 @@ export default class Card {
               console.log(err);
             });
 
-          } else {
+        } else {
           this._dislikeApiRequest(this._cardObject._id)
             .then((cardInfo) => {
               this._cardLikeButton.classList.remove('elements__like-button_active');
               this._cardLikeCounter.textContent = cardInfo.likes.length;
             })
             .catch((err) => {
-            console.log(err);
+              console.log(err);
             });
-          }
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -88,17 +88,16 @@ export default class Card {
     }
   }
 
-  generateCard(userId) {
+  generateCard() {
     this._element = this._getElement();
     this._cardLikeButton = this._element.querySelector('.elements__like-button');
     this._cardImage = this._element.querySelector('.elements__image');
     this._cardDeleteButton = this._element.querySelector('.elements__close-button');
     this._cardOwnerId = this._data.owner._id;
     this._cardLikeCounter = this._element.querySelector('.elements__like-counter');
-    this._userId = userId;
 
     this._cardImage.src = this._data.link;
-    this._cardImage.alt = `Картинка карточки - ${this._data.link}`;
+    this._cardImage.alt = this._data.name;
     this._element.querySelector('.elements__title').textContent = this._data.name;
 
     // Удаляем кнопку удаления карточки у чужих карточек

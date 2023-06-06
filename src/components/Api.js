@@ -88,7 +88,6 @@ class Api {
       headers: this.headers
     })
   }
-
 }
 
 const api = new Api(config);
