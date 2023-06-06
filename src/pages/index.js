@@ -77,44 +77,6 @@ const popupFormAvatar = new PopupWithForm({
 
 popupFormAvatar.setEventListeners();
 
-const popupAddNewCard = new PopupWithForm({
-  popupSelector: '.popup_type_add-card',
-  handleSubmitForm: (data) => {
-    popupAddNewCard.renderLoading(true);
-    api.postNewCard(data.title, data.link)
-      .then(res => {
-        const cardSection = new Section({
-          items: [res],
-          renderer: (item) => {
-            const newCard = new Card({
-              data: item,
-              handleCardClick: () => {
-                popupCapture.open(item)
-              },
-              likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
-              dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
-              deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
-              getCardInformApiRequest: () => { return api.getInitialCards() }
-            }, cardTeamplateSelector);
-            const cardElement = newCard.generateCard(item.owner._id);
-
-            cardSection.addItem(cardElement, 'prepend');
-          }
-        }, cardsContainerSelector);
-
-        cardSection.renderItems();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(_ => {
-        popupAddNewCard.renderLoading(false);
-      })
-  }
-});
-
-popupAddNewCard.setEventListeners();
-
 const popupCapture = new PopupWithImage({
   popupSelector: '.popup_type_capture',
   imageSelector: '.popup__capture-image',
@@ -132,6 +94,8 @@ avatarFormValidation.enableValidation();
 const addCardFormValidation = new FormValidator(config, addCardForm)
 addCardFormValidation.enableValidation();
 
+let cardSection = {};
+
 Promise.all([
   api.getUserInformation(),
   api.getInitialCards()
@@ -141,7 +105,7 @@ Promise.all([
     let cardsData = values[1];
 
     // Формируем секцию с карточками
-    const cardSection = new Section({
+      cardSection = new Section({
       items: cardsData,
       renderer: (item) => {
         const newCard = new Card({
@@ -168,6 +132,44 @@ Promise.all([
   .catch((err) => {
     console.log(err);
   })
+
+  const popupAddNewCard = new PopupWithForm({
+    popupSelector: '.popup_type_add-card',
+    handleSubmitForm: (data) => {
+      popupAddNewCard.renderLoading(true);
+      api.postNewCard(data.title, data.link)
+        .then(res => {
+          const cardSection = new Section({
+            items: [res],
+            renderer: (item) => {
+              const newCard = new Card({
+                data: item,
+                handleCardClick: () => {
+                  popupCapture.open(item)
+                },
+                likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
+                dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
+                deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
+                getCardInformApiRequest: () => { return api.getInitialCards() }
+              }, cardTeamplateSelector);
+              const cardElement = newCard.generateCard(item.owner._id);
+
+              cardSection.addItem(cardElement, 'prepend');
+            }
+          }, cardsContainerSelector);
+
+          cardSection.renderItems();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(_ => {
+          popupAddNewCard.renderLoading(false);
+        })
+    }
+  });
+
+  popupAddNewCard.setEventListeners();
 
 //Слушатели
 
