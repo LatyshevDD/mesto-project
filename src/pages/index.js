@@ -35,7 +35,8 @@ import {
   setLoadingToSubmitButton,
   resetInputErrors,
   inactiveSubmitButtonState,
-  handleSubmit
+  handleSubmit,
+  createCard
 } from "../utils/utils.js";
 
 import FormValidator from '../components/FormValidator';
@@ -108,20 +109,9 @@ Promise.all([
       cardSection = new Section({
       items: cardsData,
       renderer: (item) => {
-        const newCard = new Card({
-          data: item,
-          handleCardClick: () => {
-            popupCapture.open(item)
-          },
-          likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
-          dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
-          deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
-          getCardInformApiRequest: () => { return api.getInitialCards() }
-        }, cardTeamplateSelector);
-        const cardElement = newCard.generateCard(userData._id);
-
-        cardSection.addItem(cardElement, 'append');
+        createCard(item, popupCapture, cardSection, userData._id, cardTeamplateSelector, 'append');
       }
+
     }, cardsContainerSelector);
 
     cardSection.renderItems();
@@ -136,36 +126,12 @@ Promise.all([
   const popupAddNewCard = new PopupWithForm({
     popupSelector: '.popup_type_add-card',
     handleSubmitForm: (data) => {
-      popupAddNewCard.renderLoading(true);
-      api.postNewCard(data.title, data.link)
-        .then(res => {
-          const cardSection = new Section({
-            items: [res],
-            renderer: (item) => {
-              const newCard = new Card({
-                data: item,
-                handleCardClick: () => {
-                  popupCapture.open(item)
-                },
-                likeApiRequest: (cardId) => { return api.likeCardToServer(cardId) },
-                dislikeApiRequest: (cardId) => { return api.disLikeCardFromServer(cardId) },
-                deleteCardApiRequest: (cardId) => { return api.deleteCardFromServer(cardId) },
-                getCardInformApiRequest: () => { return api.getInitialCards() }
-              }, cardTeamplateSelector);
-              const cardElement = newCard.generateCard(item.owner._id);
-
-              cardSection.addItem(cardElement, 'prepend');
-            }
-          }, cardsContainerSelector);
-
-          cardSection.renderItems();
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(_ => {
-          popupAddNewCard.renderLoading(false);
-        })
+      function makeRequest() {
+        return api.postNewCard(data.title, data.link).then((res) => {
+          createCard(res, popupCapture, cardSection, res.owner._id, cardTeamplateSelector, "prepend");
+        });
+      }
+      handleSubmit(makeRequest, popupAddNewCard);
     }
   });
 
