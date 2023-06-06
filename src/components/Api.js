@@ -20,15 +20,18 @@ class Api {
     return res.json();
   }
 
+  _request(url, options) {
+    return fetch(url, options).then(res => this._getResponseData(res))
+  }
+
   getUserInformation() {
-    return fetch(`${this.baseUrl}/users/me`, {
+    return this._request(`${this.baseUrl}/users/me`, {
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   changeUserInformation(name, about) {
-    return fetch(`${this.baseUrl}/users/me`, {
+    return this._request(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       body: JSON.stringify({
         name: `${name}`,
@@ -36,18 +39,16 @@ class Api {
       }),
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   getInitialCards() {
-    return fetch(`${this.baseUrl}/cards`, {
+    return this._request(`${this.baseUrl}/cards`, {
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   postNewCard(name, link) {
-    return fetch(`${this.baseUrl}/cards`, {
+    return this._request(`${this.baseUrl}/cards`, {
       method: 'POST',
       body: JSON.stringify({
         name: `${name}`,
@@ -55,42 +56,37 @@ class Api {
       }),
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   deleteCardFromServer(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
+    return this._request(`${this.baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   likeCardToServer(cardId) {
-    return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return this._request(`${this.baseUrl}/cards/likes/${cardId}`, {
       method: 'PUT',
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   disLikeCardFromServer(cardId) {
-    return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+    return this._request(`${this.baseUrl}/cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
   changeUserAvatar(link) {
-    return fetch(`${this.baseUrl}/users/me/avatar`, {
+    return this._request(`${this.baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       body: JSON.stringify({
         avatar: `${link}`
       }),
       headers: this.headers
     })
-      .then(res => this._getResponseData(res));
   }
 
 }
